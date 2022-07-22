@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:detection_mobile/models/student_model.dart';
 import 'package:detection_mobile/pages/navpages/detail_page.dart';
 import 'package:detection_mobile/pages/navpages/data_page.dart';
+import 'package:detection_mobile/widgets/show_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../../api/api_service.dart';
@@ -24,12 +23,6 @@ class _HomePageState extends State<HomePage> {
   StudentModel? studentModel;
   String? studentId;
   String? enterdStudentId;
-  bool isImageSelected = false;
-  bool isFileSelected = false;
-  XFile? file;
-
-  String faculty = "";
-  String province = "";
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +75,8 @@ class _HomePageState extends State<HomePage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 600,
+            SizedBox(
+              height: 500,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                         "check student id",
                         style: GoogleFonts.prompt(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: 25,
                           color: Colors.deepOrangeAccent,
                         ),
                       ),
@@ -109,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                     "studentId",
                     "student id",
                     (onValidateVal) {
-                      String pattern = r'^[0-9]{8}';
+                      String pattern = r'^([0-9]{8})$';
                       if (onValidateVal.isEmpty) {
                         return "* จำเป็น";
                       }
@@ -148,24 +141,17 @@ class _HomePageState extends State<HomePage> {
 
                           APIService.checkData(studentId!).then(
                             (response) {
-                              APIService.getCount(studentId!).then((value) {
-                                setState(() {
-                                  isAsyncCallProcess = false;
-                                });
+                              APIService.getCount(studentId!).then(
+                                (value) {
+                                  setState(() {
+                                    isAsyncCallProcess = false;
+                                  });
 
-                                if (response) {
-                                  showNewDiAlertDialog(
+                                  if (response) {
+                                    foundDialog(
                                       context,
                                       Config.appName,
-                                      "พบเจอผู้ไม่สวมหมวกนิรภัย ",
-                                      "เพิ่มข้อมูลใหม่",
-                                      () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ScanPage()));
-                                      },
+                                      "พบข้อมูลนิสิต",
                                       "ดูข้อมูล",
                                       () {
                                         Navigator.push(
@@ -177,12 +163,6 @@ class _HomePageState extends State<HomePage> {
                                                           .toString(),
                                                     )));
                                       },
-                                      value);
-                                } else {
-                                  showNewNotDiAlertDialog(
-                                      context,
-                                      Config.appName,
-                                      "ไม่พบเจอผู้ไม่สวมหมวกนิรภัย ",
                                       "เพิ่มข้อมูลใหม่",
                                       () {
                                         Navigator.push(
@@ -191,13 +171,30 @@ class _HomePageState extends State<HomePage> {
                                                 builder: (context) =>
                                                     const ScanPage()));
                                       },
+                                      value,
+                                    );
+                                  } else {
+                                    notFoundDialog(
+                                      context,
+                                      Config.appName,
+                                      "ไม่พบเจอผู้ไม่สวมหมวกนิรภัย",
                                       "ยกเลิก",
                                       () {
                                         Navigator.of(context).pop();
                                       },
-                                      value);
-                                }
-                              });
+                                      "เพิ่มข้อมูลใหม่",
+                                      () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ScanPage()));
+                                      },
+                                      value,
+                                    );
+                                  }
+                                },
+                              );
                             },
                           );
                         }
@@ -211,22 +208,6 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  // Center(
-                  //   child: FormHelper.submitButton(
-                  //     "add student",
-                  //     () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => const StudentPage()));
-                  //     },
-                  //     btnColor: Colors.orange,
-                  //     borderColor: Colors.white,
-                  //     txtColor: Colors.white,
-                  //     borderRadius: 20,
-                  //     width: 250,
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -236,85 +217,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-    );
-  }
-
-  static Widget picPicker(
-    bool isFileSelected,
-    String fileName,
-    Function onFilePicked,
-  ) {
-    Future<XFile?> _imageFile;
-    ImagePicker _picker = ImagePicker();
-
-    return Column(
-      children: [
-        fileName.isNotEmpty
-            ? isFileSelected
-                ? Image.file(
-                    File(fileName),
-                    height: 200,
-                    width: 200,
-                  )
-                : SizedBox(
-                    child: Image.network(
-                      fileName,
-                      height: 200,
-                      width: 200,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  )
-            : SizedBox(
-                child: Image.network(
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-                  height: 200,
-                  width: 200,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 35,
-              width: 35,
-              child: IconButton(
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.image,
-                  size: 35,
-                ),
-                onPressed: () {
-                  _imageFile = _picker.pickImage(source: ImageSource.gallery);
-                  _imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: 35,
-              width: 35,
-              child: IconButton(
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(
-                  Icons.camera,
-                  size: 35,
-                ),
-                onPressed: () {
-                  _imageFile = _picker.pickImage(source: ImageSource.camera);
-                  _imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
-                },
-              ),
-            )
-          ],
-        )
-      ],
     );
   }
 

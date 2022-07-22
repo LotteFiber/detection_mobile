@@ -92,543 +92,529 @@ class _DataPageState extends State<ScanPage> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "motorcycle plate",
-                            style: GoogleFonts.prompt(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.deepOrangeAccent,
-                            ),
-                          ),
-                          picPicker(
-                            isImageSelected,
-                            dataModel!.uploadedImages ?? "",
-                            (file) {
-                              setState(
-                                () {
-                                  dataModel!.uploadedImages = file.path;
-                                  isImageSelected = true;
-                                },
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Center(
-                            child: FormHelper.submitButton(
-                              "verify",
-                              () {
-                                if (isImageSelected) {
-                                  setState(() {
-                                    isAsyncCallProcess = true;
-                                  });
-                                  APIService.addPlateImage(
-                                          dataModel!, isImageSelected)
-                                      .then(
-                                    (response) {
-                                      Timer(const Duration(seconds: 10), () {
-                                        setState(() {
-                                          isAsyncCallProcess = false;
-                                        });
-                                      });
-                                      if (response) {
-                                        Timer(const Duration(seconds: 10), () {
-                                          FormHelper.showSimpleAlertDialog(
-                                            context,
-                                            Config.appName,
-                                            "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
-                                            "Ok",
-                                            () {
-                                              APIService.getImageData()
-                                                  .then((response2) {
-                                                if (response2 != null) {
-                                                  print(response2);
-                                                  // var jsonData =
-                                                  //     json.decode(response2.body);
-                                                  setState(() {
-                                                    dataModel!.licensePartOne =
-                                                        response2["top"];
-                                                    province =
-                                                        response2["province"];
-                                                    dataModel!
-                                                            .licensePartThree =
-                                                        response2["bottom"];
-                                                    chargeVal =
-                                                        "ไม่สวมหมวกนิรภัย";
-                                                  });
-                                                }
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          );
-                                        });
-                                      } else {
-                                        FormHelper.showSimpleAlertDialog(
-                                          context,
-                                          Config.appName,
-                                          "Please Provide Valid Data",
-                                          "Ok",
-                                          () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        );
-                                      }
-                                    },
-                                  );
-                                } else {
-                                  FormHelper.showSimpleAlertDialog(
-                                    context,
-                                    Config.appName,
-                                    "Please Select Image",
-                                    "Ok",
-                                    () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                }
-                              },
-                              width: 100,
-                              height: 40,
-                              btnColor: Colors.deepOrangeAccent,
-                              borderColor: Colors.white,
-                              txtColor: Colors.white,
-                              borderRadius: 20,
-                            ),
-                          ),
-                        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
+                    Text(
+                      "motorcycle plate",
+                      style: GoogleFonts.prompt(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.deepOrangeAccent,
                       ),
-                      Column(
-                        children: [
-                          Text(
-                            "student card",
-                            style: GoogleFonts.prompt(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.deepOrangeAccent,
-                            ),
-                          ),
-                          picPicker(
-                            isImageSelected,
-                            dataModel!.uploadedImages ?? "",
-                            (file) {
-                              setState(
-                                () {
-                                  dataModel!.uploadedImages = file.path;
-                                  isImageSelected = true;
-                                },
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Center(
-                            child: FormHelper.submitButton(
-                              "verify",
-                              () {
-                                if (isImageSelected) {
-                                  setState(() {
-                                    isAsyncCallProcess = true;
-                                  });
-                                  APIService.addPlateImage(
-                                          dataModel!, isImageSelected)
-                                      .then(
-                                    (response) {
-                                      Timer(const Duration(seconds: 10), () {
-                                        setState(() {
-                                          isAsyncCallProcess = false;
-                                        });
-                                      });
-                                      if (response) {
-                                        Timer(const Duration(seconds: 10), () {
-                                          FormHelper.showSimpleAlertDialog(
-                                            context,
-                                            Config.appName,
-                                            "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
-                                            "Ok",
-                                            () {
-                                              APIService.getImageData()
-                                                  .then((response2) {
-                                                if (response2 != null) {
-                                                  print(response2);
-                                                  // var jsonData =
-                                                  //     json.decode(response2.body);
-                                                  setState(() {
-                                                    dataModel!.licensePartOne =
-                                                        response2["top"];
-                                                    province =
-                                                        response2["province"];
-                                                    dataModel!
-                                                            .licensePartThree =
-                                                        response2["bottom"];
-                                                    chargeVal =
-                                                        "ไม่สวมหมวกนิรภัย";
-                                                  });
-                                                }
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                          );
-                                        });
-                                      } else {
-                                        FormHelper.showSimpleAlertDialog(
-                                          context,
-                                          Config.appName,
-                                          "Please Provide Valid Data",
-                                          "Ok",
-                                          () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        );
-                                      }
-                                    },
-                                  );
-                                } else {
-                                  FormHelper.showSimpleAlertDialog(
-                                    context,
-                                    Config.appName,
-                                    "Please Select Image",
-                                    "Ok",
-                                    () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                }
-                              },
-                              width: 100,
-                              height: 40,
-                              btnColor: Colors.deepOrangeAccent,
-                              borderColor: Colors.white,
-                              txtColor: Colors.white,
-                              borderRadius: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "event",
-                            style: GoogleFonts.prompt(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                              color: Colors.deepOrangeAccent,
-                            ),
-                          ),
-                          picPicker(
-                              isImageSelected, dataModel!.uploadedImages ?? "",
-                              (file) {
+                    ),
+                    picPicker(
+                      isImageSelected,
+                      dataModel!.uploadedImages ?? "",
+                      (file) {
+                        setState(
+                          () {
+                            dataModel!.uploadedImages = file.path;
+                            isImageSelected = true;
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: FormHelper.submitButton(
+                        "verify",
+                        () {
+                          if (isImageSelected) {
                             setState(() {
-                              dataModel!.uploadedImages = file.path;
-                              isImageSelected = true;
+                              isAsyncCallProcess = true;
                             });
-                          }),
-                        ],
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  FormHelper.inputFieldWidget(
-                    context,
-                    "firstName",
-                    "first name",
-                    (onValidateVal) {
-                      String pattern =
-                          r"^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$";
-                      // if (onValidateVal.isEmpty) {
-                      //   return "* จำเป็น";
-                      // }
-                      // if (!RegExp(pattern).hasMatch(onValidateVal)) {
-                      //   return "ชื่อ รูปแบบไม่ถูกต้อง";
-                      // }
-                      return null;
-                    },
-                    (onSavedVal) {
-                      firstName = onSavedVal.toString().trim();
-                    },
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    fontSize: 14,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    backgroundColor: Colors.grey.shade100,
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.inputFieldWidget(
-                    context,
-                    "lastName",
-                    "last name",
-                    (onValidateVal) {
-                      String pattern =
-                          r"^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$";
-                      // if (onValidateVal.isEmpty) {
-                      //   return "* จำเป็น";
-                      // }
-                      // if (!RegExp(pattern).hasMatch(onValidateVal)) {
-                      //   return "นามสกุล รูปแบบไม่ถูกต้อง";
-                      // }
-                      return null;
-                    },
-                    (onSavedVal) {
-                      lastName = onSavedVal.toString().trim();
-                    },
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    fontSize: 14,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    backgroundColor: Colors.grey.shade100,
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.inputFieldWidget(
-                    context,
-                    "studentId",
-                    "student id",
-                    (onValidateVal) {
-                      String pattern = r'^[0-9]{8}';
-                      // if (onValidateVal.isEmpty) {
-                      //   return "* จำเป็น";
-                      // }
-                      // if (!RegExp(pattern).hasMatch(onValidateVal)) {
-                      //   return "รหัสนิสิต รูปแบบไม่ถูกต้อง";
-                      // }
-                      return null;
-                    },
-                    (onSavedVal) {
-                      studentId = onSavedVal.toString().trim();
-                    },
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    fontSize: 14,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    backgroundColor: Colors.grey.shade100,
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.dropDownWidget(
-                    context,
-                    "faculty",
-                    "",
-                    Config.facultyList,
-                    (onChanged) {
-                      faculty = onChanged! ?? "";
-                    },
-                    (onValidate) {
-                      // if (onValidate == null) {
-                      //   return "* จำเป็น";
-                      // }
-                      return null;
-                    },
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    hintFontSize: 15,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.inputFieldWidget(
-                    context,
-                    "licensePartOne",
-                    "licensePartOne",
-                    (onValidateVal) {
-                      if (onValidateVal.isEmpty) {
-                        return "* จำเป็น";
-                      }
-                      return null;
-                    },
-                    (onSavedVal) {
-                      dataModel!.licensePartOne = onSavedVal.toString().trim();
-                    },
-                    initialValue: dataModel!.licensePartOne ?? "",
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    fontSize: 14,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    backgroundColor: Colors.grey.shade100,
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.dropDownWidget(
-                    context,
-                    "licensePartTwo",
-                    province,
-                    Config.cityList,
-                    (onChanged) {
-                      dataModel!.licensePartTwo = onChanged! ?? "";
-                    },
-                    (onValidate) {
-                      if (onValidate == null) {
-                        return "* จำเป็น";
-                      }
-                      return null;
-                    },
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    hintFontSize: 15,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.inputFieldWidget(
-                    context,
-                    "licensePartThree",
-                    "licensePartThree",
-                    (onValidateVal) {
-                      if (onValidateVal.isEmpty) {
-                        return "* จำเป็น";
-                      }
-                      return null;
-                    },
-                    (onSavedVal) {
-                      dataModel!.licensePartThree =
-                          onSavedVal.toString().trim();
-                    },
-                    initialValue: dataModel!.licensePartThree ?? "",
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    fontSize: 14,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    backgroundColor: Colors.grey.shade100,
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FormHelper.dropDownWidget(
-                    context,
-                    "charge",
-                    chargeVal,
-                    Config.chargeList,
-                    (onChanged) {
-                      dataModel!.charge = onChanged! ?? "";
-                    },
-                    (onValidate) {
-                      if (onValidate == null) {
-                        return "* จำเป็น";
-                      }
-                      return null;
-                    },
-                    showPrefixIcon: false,
-                    borderRadius: 10,
-                    contentPadding: 15,
-                    hintFontSize: 15,
-                    prefixIconPaddingLeft: 10,
-                    borderColor: Colors.grey.shade400,
-                    textColor: Colors.black,
-                    prefixIconColor: Colors.black,
-                    hintColor: Colors.black.withOpacity(.6),
-                    borderFocusColor: Colors.grey.shade400,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Center(
-                    child: FormHelper.submitButton(
-                      "save",
-                      () {
-                        if (validateAndSave()) {
-                          setState(() {
-                            isAsyncCallProcess = true;
-                          });
-                          APIService.addData(dataModel!).then(
-                            (response) {
-                              setState(() {
-                                isAsyncCallProcess = false;
-                              });
-                              if (response) {
-                                FormHelper.showSimpleAlertDialog(
-                                  context,
-                                  Config.appName,
-                                  "บันทึกข้อมูลสำเร็จ",
-                                  "Ok",
-                                  () {
-                                    Navigator.of(context).pop();
-                                  },
-                                );
-                              } else {
-                                FormHelper.showSimpleAlertDialog(
-                                  context,
-                                  Config.appName,
-                                  "กรุณากรอกข้อมูลให้ถูกต้อง",
-                                  "Ok",
-                                  () {
-                                    Navigator.of(context).pop();
-                                  },
-                                );
-                              }
+                            APIService.addPlateImage(
+                                    dataModel!, isImageSelected)
+                                .then(
+                              (response) {
+                                Timer(const Duration(seconds: 10), () {
+                                  setState(() {
+                                    isAsyncCallProcess = false;
+                                  });
+                                });
+                                if (response) {
+                                  Timer(const Duration(seconds: 10), () {
+                                    FormHelper.showSimpleAlertDialog(
+                                      context,
+                                      Config.appName,
+                                      "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
+                                      "Ok",
+                                      () {
+                                        APIService.getImageData()
+                                            .then((response2) {
+                                          if (response2 != null) {
+                                            print(response2);
+                                            // var jsonData =
+                                            //     json.decode(response2.body);
+                                            setState(() {
+                                              dataModel!.licensePartOne =
+                                                  response2["top"];
+                                              province = response2["province"];
+                                              dataModel!.licensePartThree =
+                                                  response2["bottom"];
+                                              chargeVal = "ไม่สวมหมวกนิรภัย";
+                                            });
+                                          }
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  });
+                                } else {
+                                  FormHelper.showSimpleAlertDialog(
+                                    context,
+                                    Config.appName,
+                                    "Please Provide Valid Data",
+                                    "Ok",
+                                    () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                }
+                              },
+                            );
+                          } else {
+                            FormHelper.showSimpleAlertDialog(
+                              context,
+                              Config.appName,
+                              "Please Select Image",
+                              "Ok",
+                              () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          }
+                        },
+                        width: 100,
+                        height: 40,
+                        btnColor: Colors.deepOrangeAccent,
+                        borderColor: Colors.white,
+                        txtColor: Colors.white,
+                        borderRadius: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "student card",
+                      style: GoogleFonts.prompt(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ),
+                    picPicker(
+                      isImageSelected,
+                      dataModel!.uploadedImages ?? "",
+                      (file) {
+                        setState(
+                          () {
+                            dataModel!.uploadedImages = file.path;
+                            isImageSelected = true;
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Center(
+                      child: FormHelper.submitButton(
+                        "verify",
+                        () {
+                          if (isImageSelected) {
+                            setState(() {
+                              isAsyncCallProcess = true;
+                            });
+                            APIService.addPlateImage(
+                                    dataModel!, isImageSelected)
+                                .then(
+                              (response) {
+                                Timer(const Duration(seconds: 10), () {
+                                  setState(() {
+                                    isAsyncCallProcess = false;
+                                  });
+                                });
+                                if (response) {
+                                  Timer(const Duration(seconds: 10), () {
+                                    FormHelper.showSimpleAlertDialog(
+                                      context,
+                                      Config.appName,
+                                      "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
+                                      "Ok",
+                                      () {
+                                        APIService.getImageData()
+                                            .then((response2) {
+                                          if (response2 != null) {
+                                            print(response2);
+                                            // var jsonData =
+                                            //     json.decode(response2.body);
+                                            setState(() {
+                                              dataModel!.licensePartOne =
+                                                  response2["top"];
+                                              province = response2["province"];
+                                              dataModel!.licensePartThree =
+                                                  response2["bottom"];
+                                              chargeVal = "ไม่สวมหมวกนิรภัย";
+                                            });
+                                          }
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    );
+                                  });
+                                } else {
+                                  FormHelper.showSimpleAlertDialog(
+                                    context,
+                                    Config.appName,
+                                    "Please Provide Valid Data",
+                                    "Ok",
+                                    () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
+                                }
+                              },
+                            );
+                          } else {
+                            FormHelper.showSimpleAlertDialog(
+                              context,
+                              Config.appName,
+                              "Please Select Image",
+                              "Ok",
+                              () {
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          }
+                        },
+                        width: 100,
+                        height: 40,
+                        btnColor: Colors.deepOrangeAccent,
+                        borderColor: Colors.white,
+                        txtColor: Colors.white,
+                        borderRadius: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "event",
+                      style: GoogleFonts.prompt(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ),
+                    picPicker(isImageSelected, dataModel!.uploadedImages ?? "",
+                        (file) {
+                      setState(() {
+                        dataModel!.uploadedImages = file.path;
+                        isImageSelected = true;
+                      });
+                    }),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "firstName",
+              "first name",
+              (onValidateVal) {
+                String pattern =
+                    r"^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$";
+                // if (onValidateVal.isEmpty) {
+                //   return "* จำเป็น";
+                // }
+                // if (!RegExp(pattern).hasMatch(onValidateVal)) {
+                //   return "ชื่อ รูปแบบไม่ถูกต้อง";
+                // }
+                return null;
+              },
+              (onSavedVal) {
+                firstName = onSavedVal.toString().trim();
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "lastName",
+              "last name",
+              (onValidateVal) {
+                String pattern =
+                    r"^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$";
+                // if (onValidateVal.isEmpty) {
+                //   return "* จำเป็น";
+                // }
+                // if (!RegExp(pattern).hasMatch(onValidateVal)) {
+                //   return "นามสกุล รูปแบบไม่ถูกต้อง";
+                // }
+                return null;
+              },
+              (onSavedVal) {
+                lastName = onSavedVal.toString().trim();
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "studentId",
+              "student id",
+              (onValidateVal) {
+                String pattern = r'^[0-9]{8}';
+                // if (onValidateVal.isEmpty) {
+                //   return "* จำเป็น";
+                // }
+                // if (!RegExp(pattern).hasMatch(onValidateVal)) {
+                //   return "รหัสนิสิต รูปแบบไม่ถูกต้อง";
+                // }
+                return null;
+              },
+              (onSavedVal) {
+                studentId = onSavedVal.toString().trim();
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.dropDownWidget(
+              context,
+              "faculty",
+              "",
+              Config.facultyList,
+              (onChanged) {
+                faculty = onChanged! ?? "";
+              },
+              (onValidate) {
+                // if (onValidate == null) {
+                //   return "* จำเป็น";
+                // }
+                return null;
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              hintFontSize: 15,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "licensePartOne",
+              "licensePartOne",
+              (onValidateVal) {
+                if (onValidateVal.isEmpty) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                dataModel!.licensePartOne = onSavedVal.toString().trim();
+              },
+              initialValue: dataModel!.licensePartOne ?? "",
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.dropDownWidget(
+              context,
+              "licensePartTwo",
+              province,
+              Config.cityList,
+              (onChanged) {
+                dataModel!.licensePartTwo = onChanged! ?? "";
+              },
+              (onValidate) {
+                if (onValidate == null) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              hintFontSize: 15,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "licensePartThree",
+              "licensePartThree",
+              (onValidateVal) {
+                if (onValidateVal.isEmpty) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                dataModel!.licensePartThree = onSavedVal.toString().trim();
+              },
+              initialValue: dataModel!.licensePartThree ?? "",
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.dropDownWidget(
+              context,
+              "charge",
+              chargeVal,
+              Config.chargeList,
+              (onChanged) {
+                dataModel!.charge = onChanged! ?? "";
+              },
+              (onValidate) {
+                if (onValidate == null) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              hintFontSize: 15,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Center(
+              child: FormHelper.submitButton(
+                "save",
+                () {
+                  if (validateAndSave()) {
+                    setState(() {
+                      isAsyncCallProcess = true;
+                    });
+                    APIService.addData(dataModel!).then(
+                      (response) {
+                        setState(() {
+                          isAsyncCallProcess = false;
+                        });
+                        if (response) {
+                          FormHelper.showSimpleAlertDialog(
+                            context,
+                            Config.appName,
+                            "บันทึกข้อมูลสำเร็จ",
+                            "Ok",
+                            () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        } else {
+                          FormHelper.showSimpleAlertDialog(
+                            context,
+                            Config.appName,
+                            "กรุณากรอกข้อมูลให้ถูกต้อง",
+                            "Ok",
+                            () {
+                              Navigator.of(context).pop();
                             },
                           );
                         }
                       },
-                      btnColor: Colors.deepOrangeAccent,
-                      borderColor: Colors.white,
-                      txtColor: Colors.white,
-                      borderRadius: 20,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
+                    );
+                  }
+                },
+                btnColor: Colors.deepOrangeAccent,
+                borderColor: Colors.white,
+                txtColor: Colors.white,
+                borderRadius: 20,
               ),
+            ),
+            const SizedBox(
+              height: 20,
             ),
           ],
         ),

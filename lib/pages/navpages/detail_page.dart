@@ -1,18 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:detection_mobile/pages/navpages/data_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:snippet_coder_utils/FormHelper.dart';
 
+import 'package:detection_mobile/pages/navpages/data_page.dart';
+
 import '../../config.dart';
 
+// ignore: must_be_immutable
 class DetailPage extends StatelessWidget {
   String studentID;
-  DetailPage({Key? key, required this.studentID}) : super(key: key);
+  DetailPage({
+    Key? key,
+    required this.studentID,
+  }) : super(key: key);
 
   Future<List<Data>?> _getDatas() async {
     if (kDebugMode) {
@@ -61,56 +67,50 @@ class DetailPage extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                // margin: const EdgeInsets.all(20),
-                // padding: const EdgeInsets.only(top: 30),
-                child: Column(
-                  children: [
-                    FutureBuilder(
-                      future: _getDatas(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.data == null) {
-                          return const Center(child: Text("Loading..."));
-                        } else {
-                          return ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var firstNameCap =
-                                  "${snapshot.data[index].first_name}"
-                                      .capitalize();
-                              var lastNameCap =
-                                  "${snapshot.data[index].last_name}"
-                                      .capitalize();
-                              var license =
-                                  "${snapshot.data[index].licensepartone}"
-                                  " "
-                                  "${snapshot.data[index].licenseparttwo}"
-                                  " "
-                                  "${snapshot.data[index].licensepartthree}";
-                              return ListTile(
-                                leading: const CircleAvatar(
-                                  child: Icon(
-                                    Icons.warning,
-                                    color: Colors.white,
-                                  ),
-                                  backgroundColor: Colors.deepOrangeAccent,
+              Column(
+                children: [
+                  FutureBuilder(
+                    future: _getDatas(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(child: Text("Loading..."));
+                      } else {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var firstNameCap =
+                                "${snapshot.data[index].first_name}"
+                                    .capitalize();
+                            var lastNameCap =
+                                "${snapshot.data[index].last_name}"
+                                    .capitalize();
+                            var license =
+                                "${snapshot.data[index].licensepartone}"
+                                " "
+                                "${snapshot.data[index].licenseparttwo}"
+                                " "
+                                "${snapshot.data[index].licensepartthree}";
+                            return ListTile(
+                              leading: const CircleAvatar(
+                                child: Icon(
+                                  Icons.warning,
+                                  color: Colors.white,
                                 ),
-                                title: Text(firstNameCap + " " + lastNameCap),
-                                subtitle: Text(snapshot.data[index].student_id),
-                                trailing: Text(license),
-                              );
-                            },
-                          );
-                        }
-                      },
-                    )
-                  ],
-                ),
+                                backgroundColor: Colors.deepOrangeAccent,
+                              ),
+                              title: Text(firstNameCap + " " + lastNameCap),
+                              subtitle: Text(snapshot.data[index].student_id),
+                              trailing: Text(license),
+                            );
+                          },
+                        );
+                      }
+                    },
+                  )
+                ],
               ),
               Center(
                 child: FormHelper.submitButton(

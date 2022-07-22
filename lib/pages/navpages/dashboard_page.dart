@@ -12,23 +12,22 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  int currentIndex = 0;
   final List<Widget> widgetList = const [
     HomePage(),
     ScanPage(),
     UserPage(),
   ];
 
-  int currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: widgetList[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
         selectedItemColor: Colors.redAccent,
         unselectedItemColor: Colors.black,
         type: BottomNavigationBarType.fixed,
-        currentIndex: currentIndex,
         onTap: (_index) {
           setState(() {
             currentIndex = _index;
@@ -40,6 +39,7 @@ class _DashboardPageState extends State<DashboardPage> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],
       ),
+   
     );
   }
 }
