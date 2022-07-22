@@ -136,16 +136,28 @@ class UserPage extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton.icon(
+                  // ElevatedButton.icon(
+                  //   onPressed: () => {SharedService.logout(context)},
+                  //   icon: Text(
+                  //     "Log Out",
+                  //     style: GoogleFonts.prompt(
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 20,
+                  //     ),
+                  //   ),
+                  //   label: const Icon(Icons.logout),
+                  // ),
+                  ElevatedButton(
                       onPressed: () => {SharedService.logout(context)},
-                      icon: Text(
+                      child: Text(
                         "Log Out",
                         style: GoogleFonts.prompt(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
                       ),
-                      label: const Icon(Icons.logout)),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.deepOrangeAccent)),
                 ],
               ),
             ],

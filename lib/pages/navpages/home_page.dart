@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:detection_mobile/models/student_model.dart';
 import 'package:detection_mobile/pages/navpages/detail_page.dart';
-import 'package:detection_mobile/pages/navpages/scan_page.dart';
-import 'package:detection_mobile/pages/navpages/student_page.dart';
+import 'package:detection_mobile/pages/navpages/data_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -63,7 +62,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -84,98 +82,27 @@ class _HomePageState extends State<HomePage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Student Id",
-                  style: GoogleFonts.prompt(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.deepOrangeAccent,
-                  ),
-                ),
-              ],
-            ),
             Container(
-              margin: const EdgeInsets.only(left: 10, right: 10),
+              height: 600,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "check student id",
+                        style: GoogleFonts.prompt(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 15,
-                  ),
-                  picPicker(
-                      isImageSelected, studentModel?.uploadedCardImages ?? "",
-                      (file) {
-                    setState(() {
-                      studentModel!.uploadedCardImages = file.path;
-                      isImageSelected = true;
-                    });
-                  }),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Center(
-                    child: FormHelper.submitButton(
-                      "verify",
-                      () {
-                        if (isImageSelected) {
-                          setState(() {
-                            isAsyncCallProcess = true;
-                          });
-                          APIService.checkDataCard(
-                                  studentModel!, isImageSelected)
-                              .then(
-                            (response) {
-                              setState(() {
-                                isAsyncCallProcess = false;
-                              });
-                              if (response) {
-                                FormHelper.showSimpleAlertDialog(
-                                  context,
-                                  Config.appName,
-                                  "บันทึกข้อมูลสำเร็จ",
-                                  "Ok",
-                                  () {
-                                    Navigator.of(context).pop();
-                                  },
-                                );
-                              } else {
-                                FormHelper.showSimpleAlertDialog(
-                                  context,
-                                  Config.appName,
-                                  "กรุณากรอกข้อมูลให้ถูกต้อง",
-                                  "Ok",
-                                  () {
-                                    Navigator.of(context).pop();
-                                  },
-                                );
-                              }
-                            },
-                          );
-                        } else {
-                          FormHelper.showSimpleAlertDialog(
-                            context,
-                            Config.appName,
-                            "กรุณาเลือกรูป หรือถ่ายรูป",
-                            "Ok",
-                            () {
-                              Navigator.of(context).pop();
-                            },
-                          );
-                        }
-                      },
-                      btnColor: Colors.deepOrangeAccent,
-                      borderColor: Colors.white,
-                      txtColor: Colors.white,
-                      borderRadius: 20,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
                   ),
                   FormHelper.inputFieldWidget(
                     context,
@@ -311,7 +238,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 
   static Widget picPicker(
     bool isFileSelected,

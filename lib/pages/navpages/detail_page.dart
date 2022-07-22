@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:detection_mobile/pages/navpages/scan_page.dart';
+import 'package:detection_mobile/pages/navpages/data_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
@@ -14,12 +15,16 @@ class DetailPage extends StatelessWidget {
   DetailPage({Key? key, required this.studentID}) : super(key: key);
 
   Future<List<Data>?> _getDatas() async {
-    print("Start !" + studentID);
+    if (kDebugMode) {
+      print("Start !" + studentID);
+    }
     var url = Uri.http(Config.apiURL, Config.showDataDetails + "/" + studentID);
     var dataObj = await http.get(url);
 
     var jsonData = json.decode(dataObj.body);
-    print("Start !" + jsonData.length.toString());
+    if (kDebugMode) {
+      print("Start !" + jsonData.length.toString());
+    }
     List<Data> datas = [];
     for (var d in jsonData) {
       Data data = Data(
@@ -60,8 +65,8 @@ class DetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.all(20),
-                padding: const EdgeInsets.only(top: 30),
+                // margin: const EdgeInsets.all(20),
+                // padding: const EdgeInsets.only(top: 30),
                 child: Column(
                   children: [
                     FutureBuilder(
@@ -109,7 +114,7 @@ class DetailPage extends StatelessWidget {
               ),
               Center(
                 child: FormHelper.submitButton(
-                  "บันทึกข้อมูลใหม่",
+                  "เพิ่มข้อมูลใหม่",
                   () {
                     Navigator.push(
                         context,
