@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       title: 'Helmet.sys',
       debugShowCheckedModeBanner: false,
       theme: buildThemeData(),
-      // home: const LoginPage(),
+      // home: const DashboardPage(),
       routes: <String, WidgetBuilder>{
         '/': (context) => _defaultHome,
         '/register': (BuildContext context) => const RegisterPage(),

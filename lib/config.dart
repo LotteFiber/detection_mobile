@@ -1,6 +1,7 @@
 class Config {
   static const String appName = "Helmet.sys";
   static const String apiURL = "10.0.2.2:5000";
+  // static const String apiURL = "http://192.168.88.152:5000";
   static const String studentAPI = "api/getdatastudent";
   static const String addDataAPI = "api/insertdatabyapp";
   static const String addPlateImage = "api/upload-file-image";

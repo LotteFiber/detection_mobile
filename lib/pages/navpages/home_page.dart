@@ -158,6 +158,7 @@ class _HomePageState extends State<HomePage> {
                                       "พบข้อมูลนิสิต",
                                       "ดูข้อมูล",
                                       () {
+                                        Navigator.of(context).pop();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -170,9 +171,12 @@ class _HomePageState extends State<HomePage> {
                                           (_) =>
                                               globalKey.currentState?.reset(),
                                         );
+                                        _processData();
+                                        FocusManager.instance.primaryFocus?.unfocus();
                                       },
                                       "เพิ่มข้อมูลใหม่",
                                       () {
+                                        Navigator.of(context).pop();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -183,6 +187,8 @@ class _HomePageState extends State<HomePage> {
                                           (_) =>
                                               globalKey.currentState?.reset(),
                                         );
+                                        _processData();
+                                        FocusManager.instance.primaryFocus?.unfocus();
                                       },
                                       value,
                                     );
@@ -195,9 +201,11 @@ class _HomePageState extends State<HomePage> {
                                       () {
                                         Navigator.of(context).pop();
                                         _processData();
+                                        FocusManager.instance.primaryFocus?.unfocus();
                                       },
                                       "เพิ่มข้อมูลใหม่",
                                       () {
+                                        Navigator.of(context).pop();
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -208,6 +216,8 @@ class _HomePageState extends State<HomePage> {
                                           (_) =>
                                               globalKey.currentState?.reset(),
                                         );
+                                        _processData();
+                                        FocusManager.instance.primaryFocus?.unfocus();
                                       },
                                       value,
                                     );

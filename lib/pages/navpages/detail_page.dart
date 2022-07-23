@@ -67,108 +67,106 @@ class DetailPage extends StatelessWidget {
           centerTitle: true,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
+        body: ListView(
           padding: const EdgeInsets.only(top: 10),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  FutureBuilder(
-                    future: _getDatas(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.data == null) {
-                        return const Center(child: Text("Loading..."));
-                      } else {
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            if (kDebugMode) {
-                              print("Start ! ${snapshot.data[index].faculty}");
-                            }
-                            var firstNameCap =
-                                "${snapshot.data[index].first_name}"
-                                    .capitalize();
-                            var lastNameCap =
-                                "${snapshot.data[index].last_name}"
-                                    .capitalize();
-                            var license =
-                                "${snapshot.data[index].licensepartone}"
-                                " "
-                                "${snapshot.data[index].licenseparttwo}"
-                                " "
-                                "${snapshot.data[index].licensepartthree}";
-                            var studentId =
-                                "${snapshot.data[index].student_id}";
-                            var faculty = "${snapshot.data[index].faculty}";
-                            var charge = "${snapshot.data[index].charge}";
-                            var date = snapshot.data[index].date_data;
-                            var dateParse = DateTime.tryParse(date);
-                            var dateFormatted = DateFormat('dd-MM-yyyy | kk:mm')
-                                .format(dateParse!);
-                            if (kDebugMode) {
-                              print(date);
-                              print(dateParse);
-                              print(dateFormatted);
-                            }
-                            return ListTile(
-                              leading: const Icon(
-                                Icons.warning,
-                                color: kActiveColor,
-                                size: 25,
+          children: [
+            Column(
+              children: [
+                FutureBuilder(
+                  future: _getDatas(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.data == null) {
+                      return const Center(child: Text("Loading..."));
+                    } else {
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        controller: ScrollController(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (kDebugMode) {
+                            print("Start ! ${snapshot.data[index].faculty}");
+                          }
+                          var firstNameCap =
+                              "${snapshot.data[index].first_name}".capitalize();
+                          var lastNameCap =
+                              "${snapshot.data[index].last_name}".capitalize();
+                          var license = "${snapshot.data[index].licensepartone}"
+                              " "
+                              "${snapshot.data[index].licenseparttwo}"
+                              " "
+                              "${snapshot.data[index].licensepartthree}";
+                          var studentId = "${snapshot.data[index].student_id}";
+                          var faculty = "${snapshot.data[index].faculty}";
+                          var charge = "${snapshot.data[index].charge}";
+                          var date = snapshot.data[index].date_data;
+                          var dateParse = DateTime.tryParse(date);
+                          var dateFormatted = DateFormat('dd-MM-yyyy | kk:mm')
+                              .format(dateParse!);
+                          if (kDebugMode) {
+                            print(date);
+                            print(dateParse);
+                            print(dateFormatted);
+                          }
+                          return ListTile(
+                            leading: const Icon(
+                              Icons.warning,
+                              color: kActiveColor,
+                              size: 25,
+                            ),
+                            minLeadingWidth: 5,
+                            title: Text(
+                              firstNameCap +
+                                  " " +
+                                  lastNameCap +
+                                  "\n" +
+                                  studentId +
+                                  "\n" +
+                                  faculty,
+                              style: GoogleFonts.prompt(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: kBodyTextColor,
                               ),
-                              minLeadingWidth: 5,
-                              title: Text(
-                                firstNameCap +
-                                    " " +
-                                    lastNameCap +
-                                    "\n" +
-                                    studentId +
-                                    "\n" +
-                                    faculty,
-                                style: GoogleFonts.prompt(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: kBodyTextColor,
-                                ),
+                            ),
+                            subtitle: const Divider(
+                              thickness: 1,
+                            ),
+                            trailing: Text(
+                              license + "\n" + charge + "\n" + dateFormatted,
+                              style: GoogleFonts.prompt(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                                color: kBodyTextColor,
                               ),
-                              subtitle: const Divider(
-                                thickness: 1,
-                              ),
-                              trailing: Text(
-                                license + "\n" + charge + "\n" + dateFormatted,
-                                style: GoogleFonts.prompt(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                  color: kBodyTextColor,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    },
-                  )
-                ],
-              ),
-              Center(
-                child: FormHelper.submitButton(
-                  "เพิ่มข้อมูลใหม่",
-                  () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ScanPage()));
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
-                  btnColor: Colors.deepOrangeAccent,
-                  borderColor: Colors.white,
-                  txtColor: Colors.white,
-                  borderRadius: 20,
-                ),
-              )
-            ],
-          ),
+                )
+              ],
+            ),
+            Center(
+              child: FormHelper.submitButton(
+                "เพิ่มข้อมูลใหม่",
+                () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ScanPage()));
+                },
+                btnColor: Colors.deepOrangeAccent,
+                borderColor: Colors.white,
+                txtColor: Colors.white,
+                borderRadius: 20,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
         ),
       ),
     );

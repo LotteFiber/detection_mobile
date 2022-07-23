@@ -406,7 +406,7 @@ class _DataPageState extends State<ScanPage> {
               "studentId",
               "student id",
               (onValidateVal) {
-                String pattern = r'^[0-9]{8}';
+                String pattern = r'^([0-9]{8})$';
                 // if (onValidateVal.isEmpty) {
                 //   return "* จำเป็น";
                 // }
