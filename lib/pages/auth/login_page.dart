@@ -1,9 +1,9 @@
+import 'package:detection_mobile/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
-
 import 'package:detection_mobile/api/api_service.dart';
 import '../../config.dart';
 
@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: kBgColor,
         body: ProgressHUD(
           child: Form(
             key: globalKey,
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Align(
                 alignment: Alignment.center,
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextSpan(
                       text: ".sys",
                       style: GoogleFonts.roboto(
-                        color: Colors.deepOrangeAccent,
+                        color: kActiveColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
               style: GoogleFonts.prompt(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: Colors.deepOrangeAccent,
+                color: kActiveColor,
               ),
             ),
           ),
@@ -123,10 +123,10 @@ class _LoginPageState extends State<LoginPage> {
             fontSize: 14,
             prefixIconPaddingLeft: 10,
             borderColor: Colors.grey.shade200,
-            textColor: Colors.black,
+            textColor: kBodyTextColor,
             prefixIconColor: Colors.black,
             hintColor: Colors.black.withOpacity(.6),
-            backgroundColor: Colors.grey.shade100,
+            backgroundColor: kInputColor,
             borderFocusColor: Colors.grey.shade400,
           ),
           const SizedBox(
@@ -153,10 +153,10 @@ class _LoginPageState extends State<LoginPage> {
               fontSize: 14,
               prefixIconPaddingLeft: 10,
               borderColor: Colors.grey.shade200,
-              textColor: Colors.black,
+              textColor: kBodyTextColor,
               prefixIconColor: Colors.black,
               hintColor: Colors.black.withOpacity(.6),
-              backgroundColor: Colors.grey.shade100,
+              backgroundColor: kInputColor,
               borderFocusColor: Colors.grey.shade400,
               obscureText: hidePassword,
               suffixIcon: IconButton(
@@ -221,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 }
               },
-              btnColor: Colors.deepOrangeAccent,
+              btnColor: kActiveColor,
               borderColor: Colors.white,
               txtColor: Colors.white,
               borderRadius: 20,
@@ -243,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextSpan(
                     text: "ลงทะเบียน",
                     style: GoogleFonts.prompt(
-                      color: Colors.deepOrangeAccent,
+                      color: kActiveColor,
                       fontWeight: FontWeight.bold,
                     ),
                     recognizer: TapGestureRecognizer()

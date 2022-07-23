@@ -1,6 +1,8 @@
+import 'package:detection_mobile/constants.dart';
 import 'package:detection_mobile/pages/navpages/data_page.dart';
 import 'package:detection_mobile/pages/navpages/user_page.dart';
 import 'package:detection_mobile/pages/navpages/home_page.dart';
+import 'package:detection_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
@@ -21,11 +23,12 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: widgetList[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
-        selectedItemColor: Colors.redAccent,
+        selectedItemColor: kActiveColor,
         unselectedItemColor: Colors.black,
         type: BottomNavigationBarType.fixed,
         onTap: (_index) {

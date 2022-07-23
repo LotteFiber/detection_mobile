@@ -1,6 +1,7 @@
 import 'package:detection_mobile/pages/auth/login_page.dart';
 import 'package:detection_mobile/pages/auth/register_page.dart';
 import 'package:detection_mobile/pages/navpages/dashboard_page.dart';
+import 'package:detection_mobile/theme.dart';
 import 'package:detection_mobile/utils/shared_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,9 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Helmet.sys',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: buildThemeData(),
       // home: const LoginPage(),
       routes: <String, WidgetBuilder>{
         '/': (context) => _defaultHome,

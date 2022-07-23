@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:detection_mobile/constants.dart';
 import 'package:detection_mobile/models/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,7 +44,7 @@ class _DataPageState extends State<ScanPage> {
       child: Scaffold(
         appBar: AppBar(
           // systemOverlayStyle:
-          backgroundColor: Colors.deepOrangeAccent,
+          backgroundColor: kActiveColor,
           title: Text(
             "Add Data",
             style: GoogleFonts.prompt(
@@ -55,7 +56,7 @@ class _DataPageState extends State<ScanPage> {
           centerTitle: true,
           elevation: 0,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: kBgColor,
         body: ProgressHUD(
           child: Form(
             key: globalKey,
@@ -102,7 +103,7 @@ class _DataPageState extends State<ScanPage> {
                       style: GoogleFonts.prompt(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
-                        color: Colors.deepOrangeAccent,
+                        color: kActiveColor,
                       ),
                     ),
                     picPicker(
@@ -192,7 +193,7 @@ class _DataPageState extends State<ScanPage> {
                         },
                         width: 100,
                         height: 40,
-                        btnColor: Colors.deepOrangeAccent,
+                        btnColor: kActiveColor,
                         borderColor: Colors.white,
                         txtColor: Colors.white,
                         borderRadius: 20,
@@ -297,7 +298,7 @@ class _DataPageState extends State<ScanPage> {
                         },
                         width: 100,
                         height: 40,
-                        btnColor: Colors.deepOrangeAccent,
+                        btnColor: kActiveColor,
                         borderColor: Colors.white,
                         txtColor: Colors.white,
                         borderRadius: 20,
@@ -607,7 +608,7 @@ class _DataPageState extends State<ScanPage> {
                     );
                   }
                 },
-                btnColor: Colors.deepOrangeAccent,
+                btnColor: kActiveColor,
                 borderColor: Colors.white,
                 txtColor: Colors.white,
                 borderRadius: 20,

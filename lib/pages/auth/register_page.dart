@@ -6,6 +6,7 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 import 'package:detection_mobile/api/api_service.dart';
 import '../../config.dart';
+import '../../constants.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Align(
                 alignment: Alignment.center,
@@ -80,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     TextSpan(
                       text: ".sys",
                       style: GoogleFonts.roboto(
-                        color: Colors.deepOrangeAccent,
+                        color: kActiveColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -98,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
               style: GoogleFonts.prompt(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: Colors.deepOrangeAccent,
+                color: kActiveColor,
               ),
             ),
           ),
@@ -125,10 +126,10 @@ class _RegisterPageState extends State<RegisterPage> {
             fontSize: 14,
             prefixIconPaddingLeft: 10,
             borderColor: Colors.grey.shade200,
-            textColor: Colors.black,
+            textColor: kBodyTextColor,
             prefixIconColor: Colors.black,
             hintColor: Colors.black.withOpacity(.6),
-            backgroundColor: Colors.grey.shade100,
+            backgroundColor: kInputColor,
             borderFocusColor: Colors.grey.shade400,
           ),
           const SizedBox(
@@ -155,10 +156,10 @@ class _RegisterPageState extends State<RegisterPage> {
               fontSize: 14,
               prefixIconPaddingLeft: 10,
               borderColor: Colors.grey.shade200,
-              textColor: Colors.black,
+              textColor: kBodyTextColor,
               prefixIconColor: Colors.black,
               hintColor: Colors.black.withOpacity(.6),
-              backgroundColor: Colors.grey.shade100,
+              backgroundColor: kInputColor,
               borderFocusColor: Colors.grey.shade400,
               obscureText: hidePassword,
               suffixIcon: IconButton(
@@ -200,10 +201,10 @@ class _RegisterPageState extends State<RegisterPage> {
             fontSize: 14,
             prefixIconPaddingLeft: 10,
             borderColor: Colors.grey.shade200,
-            textColor: Colors.black,
+            textColor: kBodyTextColor,
             prefixIconColor: Colors.black,
             hintColor: Colors.black.withOpacity(.6),
-            backgroundColor: Colors.grey.shade100,
+            backgroundColor: kInputColor,
             borderFocusColor: Colors.grey.shade400,
             obscureText: hideConfirmPassword,
             suffixIcon: IconButton(
@@ -268,7 +269,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 }
               },
-              btnColor: Colors.deepOrangeAccent,
+              btnColor: kActiveColor,
               borderColor: Colors.white,
               txtColor: Colors.white,
               borderRadius: 20,
@@ -290,7 +291,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextSpan(
                     text: "เข้าสู่ระบบ",
                     style: GoogleFonts.prompt(
-                      color: Colors.deepOrangeAccent,
+                      color: kActiveColor,
                       fontWeight: FontWeight.bold,
                     ),
                     recognizer: TapGestureRecognizer()

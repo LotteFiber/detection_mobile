@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
+import '../../../constants.dart';
 import '../../api/api_service.dart';
 import '../../config.dart';
-import '../../main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,19 +29,19 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepOrangeAccent,
+          backgroundColor: kActiveColor,
           title: Text(
             "Check Data",
             style: GoogleFonts.prompt(
               fontWeight: FontWeight.bold,
               fontSize: 25,
-              color: Colors.white,
+              color: kMainColor,
             ),
           ),
           centerTitle: true,
           elevation: 0,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: kBgColor,
         body: ProgressHUD(
           child: Form(
             key: globalKey,
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                         style: GoogleFonts.prompt(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
-                          color: Colors.deepOrangeAccent,
+                          color: kActiveColor,
                         ),
                       ),
                     ],
@@ -199,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         }
                       },
-                      btnColor: Colors.deepOrangeAccent,
+                      btnColor: kActiveColor,
                       borderColor: Colors.white,
                       txtColor: Colors.white,
                       borderRadius: 20,
