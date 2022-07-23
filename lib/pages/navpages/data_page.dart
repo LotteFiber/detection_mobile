@@ -38,6 +38,10 @@ class _DataPageState extends State<ScanPage> {
   String province = "";
   String chargeVal = "";
 
+   void _processData() {
+    globalKey.currentState?.reset();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -84,6 +88,7 @@ class _DataPageState extends State<ScanPage> {
       }
     });
   }
+  
 
   Widget _addDataUI(BuildContext context) {
     return SafeArea(
@@ -102,7 +107,7 @@ class _DataPageState extends State<ScanPage> {
                       "motorcycle plate",
                       style: GoogleFonts.prompt(
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 17,
                         color: kActiveColor,
                       ),
                     ),
@@ -123,7 +128,7 @@ class _DataPageState extends State<ScanPage> {
                     ),
                     Center(
                       child: FormHelper.submitButton(
-                        "verify",
+                        "verify m",
                         () {
                           if (isImageSelected) {
                             setState(() {
@@ -207,7 +212,7 @@ class _DataPageState extends State<ScanPage> {
                       "student card",
                       style: GoogleFonts.prompt(
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 17,
                         color: Colors.deepOrangeAccent,
                       ),
                     ),
@@ -228,7 +233,7 @@ class _DataPageState extends State<ScanPage> {
                     ),
                     Center(
                       child: FormHelper.submitButton(
-                        "verify",
+                        "verify c",
                         () {
                           if (isImageSelected) {
                             setState(() {
@@ -312,7 +317,7 @@ class _DataPageState extends State<ScanPage> {
                       "event",
                       style: GoogleFonts.prompt(
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 17,
                         color: Colors.deepOrangeAccent,
                       ),
                     ),
@@ -432,7 +437,7 @@ class _DataPageState extends State<ScanPage> {
               context,
               "faculty",
               "",
-              Config.facultyList,
+              Dropdown.facultyList,
               (onChanged) {
                 faculty = onChanged! ?? "";
               },
@@ -489,7 +494,7 @@ class _DataPageState extends State<ScanPage> {
               context,
               "licensePartTwo",
               province,
-              Config.cityList,
+              Dropdown.provinceList,
               (onChanged) {
                 dataModel!.licensePartTwo = onChanged! ?? "";
               },
@@ -546,7 +551,7 @@ class _DataPageState extends State<ScanPage> {
               context,
               "charge",
               chargeVal,
-              Config.chargeList,
+              Dropdown.chargeList,
               (onChanged) {
                 dataModel!.charge = onChanged! ?? "";
               },
@@ -572,7 +577,7 @@ class _DataPageState extends State<ScanPage> {
             ),
             Center(
               child: FormHelper.submitButton(
-                "save",
+                "SAVE",
                 () {
                   if (validateAndSave()) {
                     setState(() {
@@ -591,6 +596,7 @@ class _DataPageState extends State<ScanPage> {
                             "Ok",
                             () {
                               Navigator.of(context).pop();
+                              _processData();
                             },
                           );
                         } else {

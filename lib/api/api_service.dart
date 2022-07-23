@@ -22,22 +22,6 @@ class APIService {
   ) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
     var url = Uri.http(Config.apiURL, Config.addDataAPI);
-    // var request = http.MultipartRequest("POST", url);
-    // request.fields["top"] = model.licensePartOne!;
-    // request.fields["province"] = model.licensePartTwo!;
-    // request.fields["bottom"] = model.licensePartThree!;
-    //
-    // if (model.image != null && isFileSelected) {
-    //   http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-    //     "image",
-    //     model.image!,
-    //   );
-    //
-    //   request.files.add(multipartFile);
-    // }
-    //
-    // var response = await request.send();
-
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -183,37 +167,6 @@ class APIService {
   }
 
   // checkData
-  static Future<bool> checkDataCard(
-    StudentModel model,
-    bool isFileSelected,
-  ) async {
-    var url = Uri.http(Config.apiURL, Config.addIdCard);
-    var request = http.MultipartRequest("POST", url);
-
-    if (model.uploadedCardImages != null && isFileSelected) {
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-        "uploadedCardImages",
-        model.uploadedCardImages!,
-      );
-
-      request.files.add(multipartFile);
-    }
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
-      var url3 = Uri.http(Config.apiURL, Config.startProgramCheckCard);
-      var response3 = await client.post(url3, headers: requestHeaders);
-      if (response3.statusCode == 200) {
-        return true;
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  // checkData
   static Future<bool> checkData(
     String studentId,
   ) async {
@@ -277,50 +230,7 @@ class APIService {
       return null;
     }
   }
-
-  // Search
-  var data = [];
-  List<Data> results = [];
-  String fetchURL = "10.0.2.2:5000/api/data/getalldata";
-
-  getDataList() async {
-    var url = Uri.parse(fetchURL);
-    var response = await http.get(url);
-    try {
-      if (response.statusCode == 200) {
-        data = json.decode(response.body);
-        results = data.map((e) => DataModel.fromJson(e)).cast<Data>().toList();
-      } else {
-        print("api error");
-      }
-    } on Exception catch (e) {
-      print("error: $e");
-    }
-    return results;
-  }
-
-  // userDetails
-  // userDetails() async {
-  // try {
-  //   LoginResponseModel? loginResponseModel = await SharedService.loginDetails();
-  //
-  //   if (loginResponseModel?.data != null) {
-  //     int userId = loginResponseModel?.data.userId as int;
-  //
-  //     String urlId = Config.userAPI + "/$userId";
-  //
-  //     var  url = Uri.http(Config.apiURL, urlId);
-  //     var response = await http.get(url);
-  //
-  //     if (response.statusCode == 200) {
-  //       return response.body;
-  //     }
-  //   }
-  // }  on Exception catch (e) {
-  //   print("error: $e");
-  //   }
-  // }
-
+  
   // Register
   static Future<bool> registerUser(
     String userName,
@@ -389,8 +299,3 @@ class Data {
       this.licensepartone, this.licenseparttwo, this.licensepartthree);
 }
 
-extension StringCasingExtension on String {
-  String capitalize() {
-    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
-  }
-}

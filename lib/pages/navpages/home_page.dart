@@ -24,6 +24,10 @@ class _HomePageState extends State<HomePage> {
   String? studentId;
   String? enterdStudentId;
 
+  void _processData() {
+    globalKey.currentState?.reset();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -132,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Center(
                     child: FormHelper.submitButton(
-                      "check",
+                      "CHECK",
                       () {
                         if (validateAndSave()) {
                           setState(() {
@@ -155,21 +159,30 @@ class _HomePageState extends State<HomePage> {
                                       "ดูข้อมูล",
                                       () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailPage(
-                                                      studentID: enterdStudentId
-                                                          .toString(),
-                                                    )));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailPage(
+                                              studentID:
+                                                  enterdStudentId.toString(),
+                                            ),
+                                          ),
+                                        ).then(
+                                          (_) =>
+                                              globalKey.currentState?.reset(),
+                                        );
                                       },
                                       "เพิ่มข้อมูลใหม่",
                                       () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ScanPage()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ScanPage(),
+                                          ),
+                                        ).then(
+                                          (_) =>
+                                              globalKey.currentState?.reset(),
+                                        );
                                       },
                                       value,
                                     );
@@ -181,14 +194,20 @@ class _HomePageState extends State<HomePage> {
                                       "ยกเลิก",
                                       () {
                                         Navigator.of(context).pop();
+                                        _processData();
                                       },
                                       "เพิ่มข้อมูลใหม่",
                                       () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const ScanPage()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const ScanPage(),
+                                          ),
+                                        ).then(
+                                          (_) =>
+                                              globalKey.currentState?.reset(),
+                                        );
                                       },
                                       value,
                                     );
