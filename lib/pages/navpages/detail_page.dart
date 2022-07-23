@@ -21,16 +21,16 @@ class DetailPage extends StatelessWidget {
   }) : super(key: key);
 
   Future<List<Data>?> _getDatas() async {
-    if (kDebugMode) {
-      print("Start !" + studentID);
-    }
+    // if (kDebugMode) {
+    //   print("Start !" + studentID);
+    // }
     var url = Uri.http(Config.apiURL, Config.showDataDetails + "/" + studentID);
     var dataObj = await http.get(url);
 
     var jsonData = json.decode(dataObj.body);
-    if (kDebugMode) {
-      print("Start !" + jsonData.length.toString());
-    }
+    // if (kDebugMode) {
+    //   print("Start !" + jsonData.length.toString());
+    // }
     List<Data> datas = [];
     for (var d in jsonData) {
       Data data = Data(
@@ -84,9 +84,6 @@ class DetailPage extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
-                          if (kDebugMode) {
-                            print("Start ! ${snapshot.data[index].faculty}");
-                          }
                           var firstNameCap =
                               "${snapshot.data[index].first_name}".capitalize();
                           var lastNameCap =
@@ -100,14 +97,15 @@ class DetailPage extends StatelessWidget {
                           var faculty = "${snapshot.data[index].faculty}";
                           var charge = "${snapshot.data[index].charge}";
                           var date = snapshot.data[index].date_data;
-                          var dateParse = DateTime.tryParse(date);
+                          var dateParse = DateTime.parse(date).toLocal();
                           var dateFormatted = DateFormat('dd-MM-yyyy | kk:mm')
-                              .format(dateParse!);
-                          if (kDebugMode) {
-                            print(date);
-                            print(dateParse);
-                            print(dateFormatted);
-                          }
+                              .format(dateParse);
+                          // if (kDebugMode) {
+                          //   print(date);
+                          //   print(dateParse);
+                          //   print(dateFormatted);
+                          //   print(DateTime.now());
+                          // }
                           return ListTile(
                             leading: const Icon(
                               Icons.warning,
