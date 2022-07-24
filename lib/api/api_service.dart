@@ -18,10 +18,19 @@ class APIService {
   // addData
   static Future<bool> addData(
     DataModel model,
-    // bool isFileSelected,
+    bool isFileSelected,
   ) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
     var url = Uri.http(Config.apiURL, Config.addDataAPI);
+    var request = http.MultipartRequest("POST", url);
+    if (model.uploadedImages != null && isFileSelected) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        "uploadedImages",
+        model.uploadedImages!,
+      );
+
+      request.files.add(multipartFile);
+    }
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -30,10 +39,51 @@ class APIService {
         "province": model.licensePartTwo,
         "bottom": model.licensePartThree,
         "charge": model.charge,
+        "image": model.uploadedImages,
       }),
     );
 
     if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> addDataWithImage(
+    DataModel model,
+    bool isFileSelected,
+  ) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    var url = Uri.http(Config.apiURL, Config.uploadPlateImage);
+    var request = http.MultipartRequest("POST", url);
+    print("Fir:" + model.uploadedImages.toString());
+    if (model.uploadedImages != null && isFileSelected) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        "uploadedImages",
+        model.uploadedImages!,
+      );
+
+      request.files.add(multipartFile);
+    }
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      var url1 = Uri.http(Config.apiURL, Config.addDataAPI);
+      // var request1 = http.MultipartRequest("POST", url);
+      var response1 = await client.post(
+        url1,
+        headers: requestHeaders,
+        body: jsonEncode({
+          "top": model.licensePartOne,
+          "province": model.licensePartTwo,
+          "bottom": model.licensePartThree,
+          "charge": model.charge,
+          "image": model.uploadedImages,
+        }),
+      );
+      if (response1.statusCode == 200) {
+        return true;
+      }
       return true;
     } else {
       return false;
@@ -63,7 +113,6 @@ class APIService {
     var jasonData = json.decode(res.body);
     AppConst.Temp_UUID = jasonData["uuid"];
     if (response.statusCode == 200) {
-      Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
       var url1 = Uri.http(Config.apiURL, Config.startProgramImage);
       var response1 = await client.post(url1, body: {
         "uuid": jasonData["uuid"],
@@ -230,7 +279,7 @@ class APIService {
       return null;
     }
   }
-  
+
   // Register
   static Future<bool> registerUser(
     String userName,
@@ -298,4 +347,3 @@ class Data {
   Data(this.first_name, this.last_name, this.faculty, this.student_id,
       this.licensepartone, this.licenseparttwo, this.licensepartthree);
 }
-
