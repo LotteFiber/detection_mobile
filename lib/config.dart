@@ -5,8 +5,8 @@ class Config {
   static const String studentAPI = "api/getdatastudent";
   static const String addDataAPI = "api/insertdatabyapp";
   static const String addPlateImage = "api/upload-file-image";
+  static const String uploadPlateImage = "api/upload-image-plate";
   static const String addIdCard = "api/upload-file-card-image";
-  // static const String checkIdCard = "api/upload-file-check-card";
   static const String checkDataAPI = "api/check-data";
   static const String showDataDetails = "api/show-data";
   static const String startProgramImage = "api/video/startProgramImage";

@@ -38,7 +38,7 @@ class _DataPageState extends State<ScanPage> {
   String province = "";
   String chargeVal = "";
 
-   void _processData() {
+  void _processData() {
     globalKey.currentState?.reset();
   }
 
@@ -88,7 +88,6 @@ class _DataPageState extends State<ScanPage> {
       }
     });
   }
-  
 
   Widget _addDataUI(BuildContext context) {
     return SafeArea(
@@ -218,11 +217,11 @@ class _DataPageState extends State<ScanPage> {
                     ),
                     picPicker(
                       isImageSelected,
-                      dataModel!.uploadedImages ?? "",
+                      dataModel!.uploadedImagesCard ?? "",
                       (file) {
                         setState(
                           () {
-                            dataModel!.uploadedImages = file.path;
+                            dataModel!.uploadedImagesCard = file.path;
                             isImageSelected = true;
                           },
                         );
@@ -321,10 +320,11 @@ class _DataPageState extends State<ScanPage> {
                         color: Colors.deepOrangeAccent,
                       ),
                     ),
-                    picPicker(isImageSelected, dataModel!.uploadedImages ?? "",
+                    picPicker(
+                        isImageSelected, dataModel!.uploadedImageEvent ?? "",
                         (file) {
                       setState(() {
-                        dataModel!.uploadedImages = file.path;
+                        dataModel!.uploadedImageEvent = file.path;
                         isImageSelected = true;
                       });
                     }),
@@ -583,7 +583,7 @@ class _DataPageState extends State<ScanPage> {
                     setState(() {
                       isAsyncCallProcess = true;
                     });
-                    APIService.addData(dataModel!).then(
+                    APIService.addDataWithImage(dataModel!, isImageSelected).then(
                       (response) {
                         setState(() {
                           isAsyncCallProcess = false;
