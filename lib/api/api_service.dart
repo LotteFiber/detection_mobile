@@ -50,6 +50,7 @@ class APIService {
     }
   }
 
+  // addData with Image
   static Future<bool> addDataWithImage(
     DataModel model,
     bool isFileSelected,
@@ -79,6 +80,8 @@ class APIService {
           "bottom": model.licensePartThree,
           "charge": model.charge,
           "image": model.uploadedImages,
+          "imageCard": model.uploadedImageCard,
+          "imageEvent": model.uploadedImageEvent,
         }),
       );
       if (response1.statusCode == 200) {

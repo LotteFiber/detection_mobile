@@ -217,11 +217,11 @@ class _DataPageState extends State<ScanPage> {
                     ),
                     picPicker(
                       isImageSelected,
-                      dataModel!.uploadedImagesCard ?? "",
+                      dataModel!.uploadedImageCard ?? "",
                       (file) {
                         setState(
                           () {
-                            dataModel!.uploadedImagesCard = file.path;
+                            dataModel!.uploadedImageCard = file.path;
                             isImageSelected = true;
                           },
                         );
@@ -583,7 +583,8 @@ class _DataPageState extends State<ScanPage> {
                     setState(() {
                       isAsyncCallProcess = true;
                     });
-                    APIService.addDataWithImage(dataModel!, isImageSelected).then(
+                    APIService.addDataWithImage(dataModel!, isImageSelected)
+                        .then(
                       (response) {
                         setState(() {
                           isAsyncCallProcess = false;
