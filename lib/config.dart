@@ -6,6 +6,8 @@ class Config {
   static const String addDataAPI = "api/insertdatabyapp";
   static const String addPlateImage = "api/upload-file-image";
   static const String uploadPlateImage = "api/upload-image-plate";
+  static const String uploadCardImage = "api/upload-image-card";
+  static const String uploadEventImage = "api/upload-image-event";
   static const String addIdCard = "api/upload-file-card-image";
   static const String checkDataAPI = "api/check-data";
   static const String showDataDetails = "api/show-data";

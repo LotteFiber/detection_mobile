@@ -9,7 +9,7 @@ class DataModel {
   late String? charge;
   late String? image;
   late String? uploadedImages;
-  late String? uploadedImagesCard;
+  late String? uploadedImageCard;
   late String? uploadedImageEvent;
 
   DataModel({
@@ -20,7 +20,7 @@ class DataModel {
     this.charge,
     this.image,
     this.uploadedImages,
-    this.uploadedImagesCard,
+    this.uploadedImageCard,
     this.uploadedImageEvent,
   });
 
@@ -32,7 +32,7 @@ class DataModel {
     charge = json["charge"];
     image = json["image"];
     uploadedImages = json["uploadedImages"];
-    uploadedImagesCard = json["uploadedImagesCard"];
+    uploadedImageCard = json["uploadedImageCard"];
     uploadedImageEvent = json["uploadedImageEvent"];
   }
 
@@ -45,7 +45,7 @@ class DataModel {
     _data["charge"] = charge;
     _data["image"] = image;
     _data["uploadedImages"] = uploadedImages;
-    _data["uploadedImagesCard"] = uploadedImagesCard;
+    _data["uploadedImageCard"] = uploadedImageCard;
     _data["uploadedImageEvent"] = uploadedImageEvent;
 
     return _data;
