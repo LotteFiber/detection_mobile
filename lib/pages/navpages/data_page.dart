@@ -127,7 +127,7 @@ class _DataPageState extends State<ScanPage> {
                     ),
                     Center(
                       child: FormHelper.submitButton(
-                        "verify m",
+                        "verify",
                         () {
                           if (isImageSelected) {
                             setState(() {
@@ -205,6 +205,224 @@ class _DataPageState extends State<ScanPage> {
                     ),
                   ],
                 ),
+                Column(
+                  children: [
+                    Text(
+                      "student card",
+                      style: GoogleFonts.prompt(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ),
+                    picPicker(
+                      isImageSelected,
+                      dataModel!.uploadedImageCard ?? "",
+                      (file) {
+                        setState(
+                          () {
+                            dataModel!.uploadedImageCard = file.path;
+                            isImageSelected = true;
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "event",
+                      style: GoogleFonts.prompt(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ),
+                    picPicker(
+                        isImageSelected, dataModel!.uploadedImageEvent ?? "",
+                        (file) {
+                      setState(() {
+                        dataModel!.uploadedImageEvent = file.path;
+                        isImageSelected = true;
+                      });
+                    }),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "licensePartOne",
+              "licensePartOne",
+              (onValidateVal) {
+                if (onValidateVal.isEmpty) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                dataModel!.licensePartOne = onSavedVal.toString().trim();
+              },
+              initialValue: dataModel!.licensePartOne ?? "",
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.dropDownWidget(
+              context,
+              "licensePartTwo",
+              province,
+              Dropdown.provinceList,
+              (onChanged) {
+                dataModel!.licensePartTwo = onChanged! ?? "";
+              },
+              (onValidate) {
+                if (onValidate == null) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              hintFontSize: 15,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "licensePartThree",
+              "licensePartThree",
+              (onValidateVal) {
+                if (onValidateVal.isEmpty) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                dataModel!.licensePartThree = onSavedVal.toString().trim();
+              },
+              initialValue: dataModel!.licensePartThree ?? "",
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.dropDownWidget(
+              context,
+              "charge",
+              chargeVal,
+              Dropdown.chargeList,
+              (onChanged) {
+                dataModel!.charge = onChanged! ?? "";
+              },
+              (onValidate) {
+                if (onValidate == null) {
+                  return "* จำเป็น";
+                }
+                return null;
+              },
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              hintFontSize: 15,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Center(
+              child: FormHelper.submitButton(
+                "SAVE",
+                () {
+                  if (validateAndSave()) {
+                    setState(() {
+                      isAsyncCallProcess = true;
+                    });
+                    APIService.addDataWithImage(dataModel!, isImageSelected)
+                        .then(
+                      (response) {
+                        setState(() {
+                          isAsyncCallProcess = false;
+                        });
+                        if (response) {
+                          FormHelper.showSimpleAlertDialog(
+                            context,
+                            Config.appName,
+                            "บันทึกข้อมูลสำเร็จ",
+                            "Ok",
+                            () {
+                              Navigator.of(context).pop();
+                              _processData();
+                            },
+                          );
+                        } else {
+                          FormHelper.showSimpleAlertDialog(
+                            context,
+                            Config.appName,
+                            "กรุณากรอกข้อมูลให้ถูกต้อง",
+                            "Ok",
+                            () {
+                              Navigator.of(context).pop();
+                            },
+                          );
+                        }
+                      },
+                    );
+                  }
+                },
+                btnColor: kActiveColor,
+                borderColor: Colors.white,
+                txtColor: Colors.white,
+                borderRadius: 20,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
                 Column(
                   children: [
                     Text(
@@ -308,6 +526,9 @@ class _DataPageState extends State<ScanPage> {
                         borderRadius: 20,
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
                 Column(
@@ -331,9 +552,6 @@ class _DataPageState extends State<ScanPage> {
                   ],
                 )
               ],
-            ),
-            const SizedBox(
-              height: 20,
             ),
             FormHelper.inputFieldWidget(
               context,
@@ -461,121 +679,7 @@ class _DataPageState extends State<ScanPage> {
             const SizedBox(
               height: 10,
             ),
-            FormHelper.inputFieldWidget(
-              context,
-              "licensePartOne",
-              "licensePartOne",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "* จำเป็น";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                dataModel!.licensePartOne = onSavedVal.toString().trim();
-              },
-              initialValue: dataModel!.licensePartOne ?? "",
-              showPrefixIcon: false,
-              borderRadius: 10,
-              contentPadding: 15,
-              fontSize: 14,
-              prefixIconPaddingLeft: 10,
-              borderColor: Colors.grey.shade400,
-              textColor: Colors.black,
-              prefixIconColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.6),
-              backgroundColor: Colors.grey.shade100,
-              borderFocusColor: Colors.grey.shade400,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            FormHelper.dropDownWidget(
-              context,
-              "licensePartTwo",
-              province,
-              Dropdown.provinceList,
-              (onChanged) {
-                dataModel!.licensePartTwo = onChanged! ?? "";
-              },
-              (onValidate) {
-                if (onValidate == null) {
-                  return "* จำเป็น";
-                }
-                return null;
-              },
-              showPrefixIcon: false,
-              borderRadius: 10,
-              contentPadding: 15,
-              hintFontSize: 15,
-              prefixIconPaddingLeft: 10,
-              borderColor: Colors.grey.shade400,
-              textColor: Colors.black,
-              prefixIconColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.6),
-              borderFocusColor: Colors.grey.shade400,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            FormHelper.inputFieldWidget(
-              context,
-              "licensePartThree",
-              "licensePartThree",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "* จำเป็น";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                dataModel!.licensePartThree = onSavedVal.toString().trim();
-              },
-              initialValue: dataModel!.licensePartThree ?? "",
-              showPrefixIcon: false,
-              borderRadius: 10,
-              contentPadding: 15,
-              fontSize: 14,
-              prefixIconPaddingLeft: 10,
-              borderColor: Colors.grey.shade400,
-              textColor: Colors.black,
-              prefixIconColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.6),
-              backgroundColor: Colors.grey.shade100,
-              borderFocusColor: Colors.grey.shade400,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            FormHelper.dropDownWidget(
-              context,
-              "charge",
-              chargeVal,
-              Dropdown.chargeList,
-              (onChanged) {
-                dataModel!.charge = onChanged! ?? "";
-              },
-              (onValidate) {
-                if (onValidate == null) {
-                  return "* จำเป็น";
-                }
-                return null;
-              },
-              showPrefixIcon: false,
-              borderRadius: 10,
-              contentPadding: 15,
-              hintFontSize: 15,
-              prefixIconPaddingLeft: 10,
-              borderColor: Colors.grey.shade400,
-              textColor: Colors.black,
-              prefixIconColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.6),
-              borderFocusColor: Colors.grey.shade400,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Center(
+             Center(
               child: FormHelper.submitButton(
                 "SAVE",
                 () {
