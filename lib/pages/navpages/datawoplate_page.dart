@@ -169,55 +169,58 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                                 if (response) {
                                   Timer(const Duration(seconds: 10), () {
                                     FormHelper.showSimpleAlertDialog(
-                                      context,
-                                      Config.appName,
-                                      "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
-                                      "Ok",
-                                      () {
-                                        APIService.getCardImageData()
-                                            .then((response2) {
-                                          if (response2 != null) {
-                                            print(response2);
-                                            var pathStr = dataWOPlateModel!
-                                                .uploadedImageCard
-                                                .toString();
-                                            setState(() {
-                                              // fName = response2["first_name"];
-                                              // lName = response2["last_name"];
-                                              // sID = response2["student_id"]
-                                              //     .toString();
-                                              // fValue = response2["faculty"];
-                                              dataWOPlateModel!.firstName =
-                                                  response2["first_name"];
-                                              dataWOPlateModel!.lastName =
-                                                  response2["last_name"];
-                                              dataWOPlateModel!.studentId =
-                                                  response2["student_id"]
-                                                      .toString();
-                                              facultyVal = response2["faculty"];
-                                              dataWOPlateModel!.faculty =
-                                                  facultyVal;
-                                              chargeVal = "ไม่สวมหมวกนิรภัย";
-                                              dataWOPlateModel!.charge =
-                                                  chargeVal;
-                                              dataWOPlateModel!
-                                                      .uploadedImageCardUUID =
-                                                  AppConst.Temp_UUID +
-                                                      "." +
-                                                      pathStr.split(".").last;
-                                              AppConst.Temp_UUID = "";
-                                            });
-                                          }
-                                        });
-                                        Navigator.of(context).pop();
-                                      },
-                                    );
+                                        context,
+                                        Config.appName,
+                                        "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
+                                        "Ok", () {
+                                      APIService.getCardImageData()
+                                          .then((response2) {
+                                        if (response2 != null) {
+                                          print(response2);
+                                          var pathStr = dataWOPlateModel!
+                                              .uploadedImageCard
+                                              .toString();
+                                          setState(() {
+                                            dataWOPlateModel!.firstName =
+                                                response2["first_name"];
+                                            dataWOPlateModel!.lastName =
+                                                response2["last_name"];
+                                            dataWOPlateModel!.studentId =
+                                                response2["student_id"]
+                                                    .toString();
+                                            facultyVal = response2["faculty"];
+                                            dataWOPlateModel!.faculty =
+                                                facultyVal;
+                                            chargeVal = "ไม่สวมหมวกนิรภัย";
+                                            dataWOPlateModel!.charge =
+                                                chargeVal;
+                                            dataWOPlateModel!
+                                                    .uploadedImageCardUUID =
+                                                AppConst.Temp_UUID +
+                                                    "." +
+                                                    pathStr.split(".").last;
+                                            AppConst.Temp_UUID = "";
+                                          });
+                                        } else if (response2 == null) {
+                                          FormHelper.showSimpleAlertDialog(
+                                            context,
+                                            Config.appName,
+                                            "ไม่สามารถดึงข้อมูลจากภาพนี้ได้ โปรดลองภาพอื่น",
+                                            "Ok",
+                                            () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          );
+                                        }
+                                      });
+                                      Navigator.of(context).pop();
+                                    });
                                   });
                                 } else {
                                   FormHelper.showSimpleAlertDialog(
                                     context,
                                     Config.appName,
-                                    "Please Provide Valid Data",
+                                    "โปรดระบุข้อมูลที่ถูกต้อง",
                                     "Ok",
                                     () {
                                       Navigator.of(context).pop();
@@ -230,7 +233,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                             FormHelper.showSimpleAlertDialog(
                               context,
                               Config.appName,
-                              "Please Select Image",
+                              "กรุณาเลือกรูปภาพ",
                               "Ok",
                               () {
                                 Navigator.of(context).pop();
