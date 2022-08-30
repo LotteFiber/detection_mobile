@@ -11,6 +11,9 @@ class DataModel {
   late String? uploadedImages;
   late String? uploadedImageCard;
   late String? uploadedImageEvent;
+  late String? uploadedImageCardUUID;
+  late String? uploadedImageEventUUID;
+  late String? imageUUID;
 
   DataModel({
     this.id,
@@ -22,6 +25,9 @@ class DataModel {
     this.uploadedImages,
     this.uploadedImageCard,
     this.uploadedImageEvent,
+    this.uploadedImageCardUUID,
+    this.uploadedImageEventUUID,
+    this.imageUUID,
   });
 
   DataModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +40,9 @@ class DataModel {
     uploadedImages = json["uploadedImages"];
     uploadedImageCard = json["uploadedImageCard"];
     uploadedImageEvent = json["uploadedImageEvent"];
+    uploadedImageCardUUID = json["uploadedImageCardUUID"];
+    uploadedImageEventUUID = json["uploadedImageEventUUID"];
+    imageUUID = json["imageUUID"];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +56,9 @@ class DataModel {
     _data["uploadedImages"] = uploadedImages;
     _data["uploadedImageCard"] = uploadedImageCard;
     _data["uploadedImageEvent"] = uploadedImageEvent;
+    _data["uploadedImageCardUUID"] = uploadedImageCardUUID;
+    _data["uploadedImageEventUUID"] = uploadedImageEventUUID;
+    _data["imageUUID"] = imageUUID;
 
     return _data;
   }

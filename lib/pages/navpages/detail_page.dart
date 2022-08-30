@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -153,7 +155,7 @@ class DetailPage extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ScanPage()));
+                          builder: (context) => const DataPage()));
                 },
                 btnColor: Colors.deepOrangeAccent,
                 borderColor: Colors.white,

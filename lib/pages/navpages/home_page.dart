@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: kActiveColor,
           title: Text(
-            "Check Data",
+            "ตรวจสอบข้อมูล",
             style: GoogleFonts.prompt(
               fontWeight: FontWeight.bold,
               fontSize: 25,
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "check student id",
+                        "ตรวจสอบข้อมูลรหัสนิสิต",
                         style: GoogleFonts.prompt(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   FormHelper.inputFieldWidget(
                     context,
                     "studentId",
-                    "student id",
+                    "รหัสนิสิต",
                     (onValidateVal) {
                       String pattern = r'^([0-9]{8})$';
                       if (onValidateVal.isEmpty) {
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Center(
                     child: FormHelper.submitButton(
-                      "CHECK",
+                      "ตรวจสอบ",
                       () {
                         if (validateAndSave()) {
                           setState(() {
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const ScanPage(),
+                                                const DataPage(),
                                           ),
                                         ).then(
                                           (_) =>
@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const ScanPage(),
+                                                const DataPage(),
                                           ),
                                         ).then(
                                           (_) =>

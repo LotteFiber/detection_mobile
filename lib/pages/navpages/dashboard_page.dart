@@ -1,10 +1,10 @@
-import 'package:detection_mobile/constants.dart';
-import 'package:detection_mobile/pages/navpages/data_page.dart';
-import 'package:detection_mobile/pages/navpages/user_page.dart';
-import 'package:detection_mobile/pages/navpages/home_page.dart';
-import 'package:detection_mobile/size_config.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:detection_mobile/constants.dart';
+import 'package:detection_mobile/size_config.dart';
+import 'package:detection_mobile/pages/navpages/home_page.dart';
+import 'package:detection_mobile/pages/navpages/data_page.dart';
+import 'package:detection_mobile/pages/navpages/datawoplate_page.dart';
+import 'package:detection_mobile/pages/navpages/user_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -17,7 +17,8 @@ class _DashboardPageState extends State<DashboardPage> {
   int currentIndex = 0;
   final List<Widget> widgetList = const [
     HomePage(),
-    ScanPage(),
+    DataPage(),
+    DataWOPlatePage(),
     UserPage(),
   ];
 
@@ -38,11 +39,12 @@ class _DashboardPageState extends State<DashboardPage> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.data_array), label: "Data"),
+          BottomNavigationBarItem(icon: Icon(Icons.view_day), label: "Plate"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.credit_card), label: "Card"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "User"),
         ],
       ),
-   
     );
   }
 }

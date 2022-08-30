@@ -14,7 +14,7 @@ class UserPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: kActiveColor,
           title: Text(
-            "User",
+            "ผู้ใช้งาน",
             style: GoogleFonts.prompt(
               fontWeight: FontWeight.bold,
               fontSize: 25,
@@ -56,10 +56,10 @@ class UserPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () => {SharedService.logout(context)},
                     child: Text(
-                      "Log Out",
+                      "ออกจากระบบ",
                       style: GoogleFonts.prompt(
                         fontWeight: FontWeight.bold,
-                        fontSize: 25,
+                        fontSize: 20,
                         color: Colors.white,
                       ),
                     ),

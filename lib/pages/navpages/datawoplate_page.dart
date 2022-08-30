@@ -1,9 +1,10 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:io';
 import 'package:detection_mobile/const/appConst.dart';
 import 'package:detection_mobile/constants.dart';
 import 'package:detection_mobile/models/datawoplate_model.dart';
-import 'package:detection_mobile/models/student_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,38 +13,28 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 import '../../api/api_service.dart';
 import '../../config.dart';
-import '../../models/data_model.dart';
 
-class DataPage extends StatefulWidget {
-  const DataPage({Key? key}) : super(key: key);
+class DataWOPlatePage extends StatefulWidget {
+  const DataWOPlatePage({Key? key}) : super(key: key);
 
   @override
-  State<DataPage> createState() => _DataPageState();
+  State<DataWOPlatePage> createState() => _DataWOPlatePage();
 }
 
-class _DataPageState extends State<DataPage> {
+class _DataWOPlatePage extends State<DataWOPlatePage> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-  static final GlobalKey<FormState> globalKey2 = GlobalKey<FormState>();
   bool isAsyncCallProcess = false;
-  DataModel? dataModel;
-  StudentModel? studentModel;
   DataWOPlateModel? dataWOPlateModel;
   String? firstName;
   String? lastName;
   String? studentId;
   String? faculty;
-  String? licensePartOne = "";
-  String? licensePartTwo = "";
-  String? licensePartThree = "";
   bool isImageSelected = false;
   bool isFileSelected = false;
   XFile? file;
-
   XFile? file2;
-  XFile? file3;
-  XFile? file4;
 
-  String province = "";
+  String facultyVal = "";
   String chargeVal = "";
 
   String CardImage_UUID = "";
@@ -82,7 +73,7 @@ class _DataPageState extends State<DataPage> {
         body: ProgressHUD(
           child: Form(
             key: globalKey,
-            child: _addDataUI(context),
+            child: _addDataWOPlateUI(context),
           ),
           inAsyncCall: isAsyncCallProcess,
           opacity: 0.3,
@@ -95,20 +86,19 @@ class _DataPageState extends State<DataPage> {
   @override
   void initState() {
     super.initState();
-    dataModel = DataModel();
-    studentModel = StudentModel();
+    dataWOPlateModel = DataWOPlateModel();
 
     Future.delayed(Duration.zero, () {
       if (ModalRoute.of(context)?.settings.arguments != null) {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
 
-        dataModel = arguments["model"];
+        dataWOPlateModel = arguments["model"];
         setState(() {});
       }
     });
   }
 
-  Widget _addDataUI(BuildContext context) {
+  Widget _addDataWOPlateUI(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -119,7 +109,7 @@ class _DataPageState extends State<DataPage> {
             Column(
               children: [
                 Text(
-                  "กรณีมีข้อมูลแผ่นป้ายทะเบียน",
+                  "กรณีไม่มีข้อมูลแผ่นป้ายทะเบียน",
                   style: GoogleFonts.prompt(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -137,7 +127,7 @@ class _DataPageState extends State<DataPage> {
                 Column(
                   children: [
                     Text(
-                      "แผ่นป้ายทะเบียน",
+                      "บัตรนิสิต",
                       style: GoogleFonts.prompt(
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
@@ -146,11 +136,11 @@ class _DataPageState extends State<DataPage> {
                     ),
                     picPicker(
                       isImageSelected,
-                      dataModel!.uploadedImages ?? "",
-                      (file) {
+                      dataWOPlateModel!.uploadedImageCard ?? "",
+                      (file4) {
                         setState(
                           () {
-                            dataModel!.uploadedImages = file.path;
+                            dataWOPlateModel!.uploadedImageCard = file4.path;
                             isImageSelected = true;
                           },
                         );
@@ -167,8 +157,8 @@ class _DataPageState extends State<DataPage> {
                             setState(() {
                               isAsyncCallProcess = true;
                             });
-                            APIService.addPlateImage(
-                                    dataModel!, isImageSelected)
+                            APIService.addCardImage(
+                                    dataWOPlateModel!, isImageSelected)
                                 .then(
                               (response) {
                                 Timer(const Duration(seconds: 10), () {
@@ -184,29 +174,37 @@ class _DataPageState extends State<DataPage> {
                                       "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
                                       "Ok",
                                       () {
-                                        APIService.getImageData()
+                                        APIService.getCardImageData()
                                             .then((response2) {
                                           if (response2 != null) {
                                             print(response2);
-                                            var pathStr = dataModel!
-                                                .uploadedImages
+                                            var pathStr = dataWOPlateModel!
+                                                .uploadedImageCard
                                                 .toString();
-                                            // var jsonData =
-                                            //     json.decode(response2.body);
                                             setState(() {
-                                              dataModel!.licensePartOne =
-                                                  response2["top"];
-                                              province = response2["province"];
-                                              dataModel!.licensePartThree =
-                                                  response2["bottom"];
+                                              // fName = response2["first_name"];
+                                              // lName = response2["last_name"];
+                                              // sID = response2["student_id"]
+                                              //     .toString();
+                                              // fValue = response2["faculty"];
+                                              dataWOPlateModel!.firstName =
+                                                  response2["first_name"];
+                                              dataWOPlateModel!.lastName =
+                                                  response2["last_name"];
+                                              dataWOPlateModel!.studentId =
+                                                  response2["student_id"]
+                                                      .toString();
+                                              facultyVal = response2["faculty"];
+                                              dataWOPlateModel!.faculty =
+                                                  facultyVal;
                                               chargeVal = "ไม่สวมหมวกนิรภัย";
-                                              dataModel!.imageUUID =
+                                              dataWOPlateModel!.charge =
+                                                  chargeVal;
+                                              dataWOPlateModel!
+                                                      .uploadedImageCardUUID =
                                                   AppConst.Temp_UUID +
                                                       "." +
                                                       pathStr.split(".").last;
-                                              dataModel!.licensePartTwo =
-                                                  province;
-                                              dataModel!.charge = chargeVal;
                                               AppConst.Temp_UUID = "";
                                             });
                                           }
@@ -219,7 +217,7 @@ class _DataPageState extends State<DataPage> {
                                   FormHelper.showSimpleAlertDialog(
                                     context,
                                     Config.appName,
-                                    "กรุณาระบุข้อมูลที่ถูกต้อง",
+                                    "Please Provide Valid Data",
                                     "Ok",
                                     () {
                                       Navigator.of(context).pop();
@@ -232,87 +230,7 @@ class _DataPageState extends State<DataPage> {
                             FormHelper.showSimpleAlertDialog(
                               context,
                               Config.appName,
-                              "กรุณาเลือกรูปภาพ",
-                              "Ok",
-                              () {
-                                Navigator.of(context).pop();
-                              },
-                            );
-                          }
-                        },
-                        width: 100,
-                        height: 40,
-                        btnColor: kActiveColor,
-                        borderColor: Colors.white,
-                        txtColor: Colors.white,
-                        borderRadius: 20,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "บัตรนิสิต",
-                      style: GoogleFonts.prompt(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                        color: Colors.deepOrangeAccent,
-                      ),
-                    ),
-                    picPicker(
-                      isImageSelected,
-                      dataModel!.uploadedImageCard ?? "",
-                      (file2) {
-                        setState(
-                          () {
-                            dataModel!.uploadedImageCard = file2.path;
-                            isImageSelected = true;
-                          },
-                        );
-                      },
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Center(
-                      child: FormHelper.submitButton(
-                        "อัปโหลด",
-                        () {
-                          if (isImageSelected) {
-                            setState(() {
-                              isAsyncCallProcess = true;
-                            });
-
-                            APIService.uploadImageCard(
-                                    dataModel!, isImageSelected)
-                                .then(
-                              (response) {
-                                setState(() {
-                                  isAsyncCallProcess = false;
-                                });
-                                if (response.isNotEmpty) {
-                                  String uuid = response;
-                                  CardImage_UUID = uuid;
-                                  dataModel!.uploadedImageCardUUID = uuid;
-                                } else {
-                                  FormHelper.showSimpleAlertDialog(
-                                    context,
-                                    Config.appName,
-                                    "กรุณาระบุข้อมูลที่ถูกต้อง",
-                                    "Ok",
-                                    () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  );
-                                }
-                              },
-                            );
-                          } else {
-                            FormHelper.showSimpleAlertDialog(
-                              context,
-                              Config.appName,
-                              "กรุณาเลือกรูปภาพ",
+                              "Please Select Image",
                               "Ok",
                               () {
                                 Navigator.of(context).pop();
@@ -340,11 +258,10 @@ class _DataPageState extends State<DataPage> {
                         color: Colors.deepOrangeAccent,
                       ),
                     ),
-                    picPicker(
-                        isImageSelected, dataModel!.uploadedImageEvent ?? "",
-                        (file3) {
+                    picPicker(isImageSelected,
+                        dataWOPlateModel!.uploadedImageEvent ?? "", (file2) {
                       setState(() {
-                        dataModel!.uploadedImageEvent = file3.path;
+                        dataWOPlateModel!.uploadedImageEvent = file2.path;
                         isImageSelected = true;
                       });
                     }),
@@ -359,9 +276,8 @@ class _DataPageState extends State<DataPage> {
                             setState(() {
                               isAsyncCallProcess = true;
                             });
-
-                            APIService.uploadImageEvent(
-                                    dataModel!, isImageSelected)
+                            APIService.uploadImageEventInDataWOPlate(
+                                    dataWOPlateModel!, isImageSelected)
                                 .then(
                               (response) {
                                 setState(() {
@@ -370,12 +286,13 @@ class _DataPageState extends State<DataPage> {
                                 if (response.isNotEmpty) {
                                   String uuid = response;
                                   EventImage_UUID = uuid;
-                                  dataModel!.uploadedImageEventUUID = uuid;
+                                  dataWOPlateModel!.uploadedImageEventUUID =
+                                      uuid;
                                 } else {
                                   FormHelper.showSimpleAlertDialog(
                                     context,
                                     Config.appName,
-                                    "กรุณาระบุข้อมูลที่ถูกต้อง",
+                                    "Please Provide Valid Data",
                                     "Ok",
                                     () {
                                       Navigator.of(context).pop();
@@ -388,7 +305,7 @@ class _DataPageState extends State<DataPage> {
                             FormHelper.showSimpleAlertDialog(
                               context,
                               Config.appName,
-                              "กรุณาเลือกรูปภาพ",
+                              "Please Select Image",
                               "Ok",
                               () {
                                 Navigator.of(context).pop();
@@ -413,18 +330,96 @@ class _DataPageState extends State<DataPage> {
             ),
             FormHelper.inputFieldWidget(
               context,
-              "licensePartOne",
-              "แผ่นป้ายทะเบียนส่วนที่ 1",
+              "firstName",
+              "ชื่อ",
               (onValidateVal) {
+                String pattern =
+                    r"^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$";
                 if (onValidateVal.isEmpty) {
                   return "* จำเป็น";
+                }
+                if (!RegExp(pattern).hasMatch(onValidateVal)) {
+                  return "ชื่อ รูปแบบไม่ถูกต้อง";
                 }
                 return null;
               },
               (onSavedVal) {
-                dataModel!.licensePartOne = onSavedVal.toString().trim();
+                dataWOPlateModel!.firstName = onSavedVal.toString().trim();
+                // firstName = onSavedVal.toString().trim();
+                // fName = onSavedVal.toString().trim();
               },
-              initialValue: dataModel!.licensePartOne ?? "",
+              initialValue: dataWOPlateModel!.firstName ?? "",
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "lastName",
+              "นามสกุล",
+              (onValidateVal) {
+                String pattern =
+                    r"^[A-Za-z]+(([,.] |[ '-])[A-Za-z]+)*([.,'-]?)$";
+                if (onValidateVal.isEmpty) {
+                  return "* จำเป็น";
+                }
+                if (!RegExp(pattern).hasMatch(onValidateVal)) {
+                  return "นามสกุล รูปแบบไม่ถูกต้อง";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                dataWOPlateModel!.lastName = onSavedVal.toString().trim();
+                // lastName = onSavedVal.toString().trim();
+                // lName = onSavedVal.toString().trim();
+              },
+              initialValue: dataWOPlateModel!.lastName ?? "",
+              showPrefixIcon: false,
+              borderRadius: 10,
+              contentPadding: 15,
+              fontSize: 14,
+              prefixIconPaddingLeft: 10,
+              borderColor: Colors.grey.shade400,
+              textColor: Colors.black,
+              prefixIconColor: Colors.black,
+              hintColor: Colors.black.withOpacity(.6),
+              backgroundColor: Colors.grey.shade100,
+              borderFocusColor: Colors.grey.shade400,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            FormHelper.inputFieldWidget(
+              context,
+              "studentId",
+              "รหัสนิสิต",
+              (onValidateVal) {
+                String pattern = r'^([0-9]{8})$';
+                if (onValidateVal.isEmpty) {
+                  return "* จำเป็น";
+                }
+                if (!RegExp(pattern).hasMatch(onValidateVal)) {
+                  return "รหัสนิสิต รูปแบบไม่ถูกต้อง";
+                }
+                return null;
+              },
+              (onSavedVal) {
+                dataWOPlateModel!.studentId = onSavedVal.toString().trim();
+                // studentId = onSavedVal.toString().trim();
+                // sID = onSavedVal.toString().trim();
+              },
+              initialValue: dataWOPlateModel!.studentId ?? "",
               showPrefixIcon: false,
               borderRadius: 10,
               contentPadding: 15,
@@ -442,11 +437,14 @@ class _DataPageState extends State<DataPage> {
             ),
             FormHelper.dropDownWidget(
               context,
-              "แผ่นป้ายทะเบียนส่วนที่ 2",
-              province,
-              Dropdown.provinceList,
+              "คณะ",
+              // fValue,
+              facultyVal,
+              Dropdown.facultyList,
               (onChanged) {
-                dataModel!.licensePartTwo = onChanged! ?? "";
+                dataWOPlateModel!.faculty = onChanged! ?? "";
+                // faculty = onChanged! ?? "";
+                // fValue = onChanged! ?? "";
               },
               (onValidate) {
                 if (onValidate == null) {
@@ -468,42 +466,13 @@ class _DataPageState extends State<DataPage> {
             const SizedBox(
               height: 10,
             ),
-            FormHelper.inputFieldWidget(
-              context,
-              "licensePartThree",
-              "แผ่นป้ายทะเบียนส่วนที่ 3",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return "* จำเป็น";
-                }
-                return null;
-              },
-              (onSavedVal) {
-                dataModel!.licensePartThree = onSavedVal.toString().trim();
-              },
-              initialValue: dataModel!.licensePartThree ?? "",
-              showPrefixIcon: false,
-              borderRadius: 10,
-              contentPadding: 15,
-              fontSize: 14,
-              prefixIconPaddingLeft: 10,
-              borderColor: Colors.grey.shade400,
-              textColor: Colors.black,
-              prefixIconColor: Colors.black,
-              hintColor: Colors.black.withOpacity(.6),
-              backgroundColor: Colors.grey.shade100,
-              borderFocusColor: Colors.grey.shade400,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             FormHelper.dropDownWidget(
               context,
               "ข้อหา",
               chargeVal,
               Dropdown.chargeList,
               (onChanged) {
-                dataModel!.charge = onChanged! ?? "";
+                dataWOPlateModel!.charge = onChanged! ?? "";
               },
               (onValidate) {
                 if (onValidate == null) {
@@ -533,7 +502,9 @@ class _DataPageState extends State<DataPage> {
                     setState(() {
                       isAsyncCallProcess = true;
                     });
-                    APIService.addData(dataModel!, isImageSelected).then(
+                    APIService.addDataWOPlate(
+                            dataWOPlateModel!, isImageSelected)
+                        .then(
                       (response) {
                         setState(() {
                           isAsyncCallProcess = false;
@@ -553,7 +524,7 @@ class _DataPageState extends State<DataPage> {
                           FormHelper.showSimpleAlertDialog(
                             context,
                             Config.appName,
-                            "กรุณากรอกข้อมูลให้ถูกต้อง",
+                            "หาบุคคลไม่เจอ",
                             "Ok",
                             () {
                               Navigator.of(context).pop();
@@ -663,17 +634,6 @@ class _DataPageState extends State<DataPage> {
 
     if (form!.validate()) {
       form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool validateAndSave2() {
-    final form2 = globalKey2.currentState;
-
-    if (form2!.validate()) {
-      form2.save();
       return true;
     } else {
       return false;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:detection_mobile/const/appConst.dart';
+import 'package:detection_mobile/models/datawoplate_model.dart';
 import 'package:detection_mobile/models/student_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:detection_mobile/config.dart';
@@ -28,7 +29,6 @@ class APIService {
         "uploadedImages",
         model.uploadedImages!,
       );
-
       request.files.add(multipartFile);
     }
     var response = await client.post(
@@ -39,7 +39,9 @@ class APIService {
         "province": model.licensePartTwo,
         "bottom": model.licensePartThree,
         "charge": model.charge,
-        "image": model.uploadedImages,
+        "image": model.imageUUID,
+        "imageCard": model.uploadedImageCardUUID,
+        "imageEvent": model.uploadedImageEventUUID,
       }),
     );
 
@@ -50,46 +52,131 @@ class APIService {
     }
   }
 
-  // addData with Image
-  static Future<bool> addDataWithImage(
+  // addData with out motorcycle plate
+  static Future<bool> addDataWOPlate(
+    DataWOPlateModel model,
+    bool isFileSelected,
+  ) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    var url = Uri.http(Config.apiURL, Config.addDataWOPlateAPI);
+    var request = http.MultipartRequest("POST", url);
+    if (model.uploadedImageCard != null && isFileSelected) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        "uploadedImageCard",
+        model.uploadedImageCard!,
+      );
+      request.files.add(multipartFile);
+    }
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode({
+        "first_name": model.firstName,
+        "last_name": model.lastName,
+        "student_id": model.studentId,
+        "faculty": model.faculty,
+        "charge": model.charge,
+        // "image": datamodel.imageUUID,
+        "imageCard": model.uploadedImageCardUUID,
+        "imageEvent": model.uploadedImageEventUUID,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+//Upload Image Card
+  static Future<String> uploadImageCard(
     DataModel model,
     bool isFileSelected,
   ) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
     var url = Uri.http(Config.apiURL, Config.uploadPlateImage);
     var request = http.MultipartRequest("POST", url);
-    print("Fir:" + model.uploadedImages.toString());
-    if (model.uploadedImages != null && isFileSelected) {
+
+    if (model.uploadedImageCard != null && isFileSelected) {
       http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
         "uploadedImages",
-        model.uploadedImages!,
+        model.uploadedImageCard!,
       );
 
       request.files.add(multipartFile);
     }
     var response = await request.send();
     if (response.statusCode == 200) {
-      var url1 = Uri.http(Config.apiURL, Config.addDataAPI);
-      // var request1 = http.MultipartRequest("POST", url);
-      var response1 = await client.post(
-        url1,
-        headers: requestHeaders,
-        body: jsonEncode({
-          "top": model.licensePartOne,
-          "province": model.licensePartTwo,
-          "bottom": model.licensePartThree,
-          "charge": model.charge,
-          "image": model.uploadedImages,
-          "imageCard": model.uploadedImageCard,
-          "imageEvent": model.uploadedImageEvent,
-        }),
-      );
-      if (response1.statusCode == 200) {
-        return true;
-      }
-      return true;
+      var res = await http.Response.fromStream(response);
+
+      var jasonData = json.decode(res.body);
+      AppConst.Temp_UUID = jasonData["uuid"];
+
+      return jasonData["uuid"];
     } else {
-      return false;
+      return "";
+    }
+  }
+
+  //Upload Image Event
+  static Future<String> uploadImageEvent(
+    DataModel model,
+    bool isFileSelected,
+  ) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    var url = Uri.http(Config.apiURL, Config.uploadPlateImage);
+    var request = http.MultipartRequest("POST", url);
+
+    if (model.uploadedImageEvent != null && isFileSelected) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        "uploadedImages",
+        model.uploadedImageEvent!,
+      );
+
+      request.files.add(multipartFile);
+    }
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      var res = await http.Response.fromStream(response);
+
+      var jasonData = json.decode(res.body);
+
+      //AppConst.Temp_UUID = jasonData["uuid"];
+
+      return jasonData["uuid"];
+    } else {
+      return "";
+    }
+  }
+
+  //Upload Image Event in DataWOPlate
+  static Future<String> uploadImageEventInDataWOPlate(
+    DataWOPlateModel model,
+    bool isFileSelected,
+  ) async {
+    var url = Uri.http(Config.apiURL, Config.uploadPlateImage);
+    var request = http.MultipartRequest("POST", url);
+
+    if (model.uploadedImageEvent != null && isFileSelected) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        "uploadedImages",
+        model.uploadedImageEvent!,
+      );
+
+      request.files.add(multipartFile);
+    }
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      var res = await http.Response.fromStream(response);
+
+      var jasonData = json.decode(res.body);
+
+      //AppConst.Temp_UUID = jasonData["uuid"];
+
+      return jasonData["uuid"];
+    } else {
+      return "";
     }
   }
 
@@ -115,6 +202,7 @@ class APIService {
 
     var jasonData = json.decode(res.body);
     AppConst.Temp_UUID = jasonData["uuid"];
+
     if (response.statusCode == 200) {
       var url1 = Uri.http(Config.apiURL, Config.startProgramImage);
       var response1 = await client.post(url1, body: {
@@ -130,22 +218,79 @@ class APIService {
     }
   }
 
+  //Add student card
+  static Future<bool> addCardImage(
+    DataWOPlateModel model,
+    bool isFileSelected,
+  ) async {
+    var url = Uri.http(Config.apiURL, Config.addCardImage);
+    var request = http.MultipartRequest("POST", url);
+    print("Fir:" + model.uploadedImageCard.toString());
+    if (model.uploadedImageCard != null && isFileSelected) {
+      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+        "uploadedImageCard",
+        model.uploadedImageCard!,
+      );
+
+      request.files.add(multipartFile);
+    }
+
+    var response = await request.send();
+    var res = await http.Response.fromStream(response);
+    var jsonData = json.decode(res.body);
+    AppConst.Temp_UUID = jsonData["uuid"];
+
+    if (response.statusCode == 200) {
+      var url1 = Uri.http(Config.apiURL, Config.startProgramCardImage);
+      var response1 = await client.post(url1, body: {
+        "uuid": jsonData["uuid"],
+      });
+      if (response1.statusCode == 200) {
+        return true;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //get data for image
   static Future getImageData() async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
     var url = Uri.http(
         Config.apiURL, Config.getImageData + AppConst.Temp_UUID + ".json");
-    print(Config.getImageData + AppConst.Temp_UUID + ".json");
+
     var response = await client.get(
       url,
       headers: requestHeaders,
     );
     var jasonData = json.decode(response.body);
     if (response.statusCode == 200) {
-      AppConst.Temp_UUID = "";
+      // AppConst.Temp_UUID = "";
       var len = jasonData.length;
       return jasonData[len - 1];
+    } else {
+      return null;
+    }
+  }
+
+  //get data for student id image
+  static Future getCardImageData() async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+
+    var url = Uri.http(
+        Config.apiURL, Config.getCardImageData + AppConst.Temp_UUID + ".json");
+
+    var response = await client.get(
+      url,
+      headers: requestHeaders,
+    );
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      // AppConst.Temp_UUID = "";
+      var len = jsonData.length;
+      return jsonData[len - 1];
     } else {
       return null;
     }
@@ -160,11 +305,11 @@ class APIService {
     String licensePartOne,
     String licensePartTwo,
     String licensePartThree,
+    // DataModel model,
   ) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
     var url = Uri.http(Config.apiURL, Config.addStudentAPI);
-
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -176,6 +321,9 @@ class APIService {
         "licensepartone": licensePartOne,
         "licenseparttwo": licensePartTwo,
         "licensepartthree": licensePartThree,
+        // "image": model.imageUUID,
+        // "imageCard": model.uploadedImageCardUUID,
+        // "imageEvent": model.uploadedImageEventUUID,
       }),
     );
 
@@ -187,36 +335,36 @@ class APIService {
   }
 
   // addIdCard
-  static Future<bool> addIdCard(
-    StudentModel model,
-    bool isFileSelected,
-  ) async {
-    var url = Uri.http(Config.apiURL, Config.addIdCard);
-    var request = http.MultipartRequest("POST", url);
+  // static Future<bool> addIdCard(
+  //   StudentModel model,
+  //   bool isFileSelected,
+  // ) async {
+  //   var url = Uri.http(Config.apiURL, Config.addIdCard);
+  //   var request = http.MultipartRequest("POST", url);
 
-    if (model.uploadedCardImages != null && isFileSelected) {
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-        "uploadedCardImages",
-        model.uploadedCardImages!,
-      );
+  //   if (model.uploadedCardImages != null && isFileSelected) {
+  //     http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
+  //       "uploadedCardImages",
+  //       model.uploadedCardImages!,
+  //     );
 
-      request.files.add(multipartFile);
-    }
+  //     request.files.add(multipartFile);
+  //   }
 
-    var response = await request.send();
+  //   var response = await request.send();
 
-    if (response.statusCode == 200) {
-      Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
-      var url2 = Uri.http(Config.apiURL, Config.startProgramCardImage);
-      var response2 = await client.post(url2, headers: requestHeaders);
-      if (response2.statusCode == 200) {
-        return true;
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+  //     var url2 = Uri.http(Config.apiURL, Config.startProgramCardImage);
+  //     var response2 = await client.post(url2, headers: requestHeaders);
+  //     if (response2.statusCode == 200) {
+  //       return true;
+  //     }
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   // checkData
   static Future<bool> checkData(
@@ -326,7 +474,7 @@ class APIService {
 
     if (response.statusCode == 200) {
       LoginResponseModel loginResponseModel = loginResponseJson(response.body);
-      //print(loginResponseModel.data.userName);
+
       AppConst.USER_NAME = loginResponseModel.data.userName;
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('username', loginResponseModel.data.userName);

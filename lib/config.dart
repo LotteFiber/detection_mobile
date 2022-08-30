@@ -4,11 +4,12 @@ class Config {
   // static const String apiURL = "http://192.168.88.152:5000";
   static const String studentAPI = "api/getdatastudent";
   static const String addDataAPI = "api/insertdatabyapp";
+  static const String addDataWOPlateAPI = "api/insertdatabyappwoplate";
   static const String addPlateImage = "api/upload-file-image";
+  static const String addCardImage = "api/upload-file-card-image";
+  // static const String addCardImage = "api/upload-card-image";
   static const String uploadPlateImage = "api/upload-image-plate";
-  static const String uploadCardImage = "api/upload-image-card";
   static const String uploadEventImage = "api/upload-image-event";
-  static const String addIdCard = "api/upload-file-card-image";
   static const String checkDataAPI = "api/check-data";
   static const String showDataDetails = "api/show-data";
   static const String startProgramImage = "api/video/startProgramImage";
@@ -16,6 +17,7 @@ class Config {
   static const String startProgramCheckCard = "api/video/startProgramCheckCard";
   static const String addStudentAPI = "api/insertstudent";
   static const String getImageData = "api/data/image/data-";
+  static const String getCardImageData = "api/data/image/dataCard-";
   static const String dataAPI = "api/show-data";
   static const String userAPI = "api/getuser";
   static const String registerAPI = "api/signup";

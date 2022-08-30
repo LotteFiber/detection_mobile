@@ -3,7 +3,7 @@ import 'size_config.dart';
 
 // clolors that we use in our app
 const kMainColor = Colors.white;
-const kActiveColor = Color.fromRGBO(247,108,42, 1);
+const kActiveColor = Color.fromRGBO(247, 108, 42, 1);
 const kAccentColor = Color(0xFFEF9920);
 // const kBodyTextColor = Color(0xFF868686);
 const kBodyTextColor = Colors.black;
@@ -116,13 +116,15 @@ final Center kOrText = Center(
     child: Text("Or", style: TextStyle(color: kMainColor.withOpacity(0.7))));
 
 class Dropdown {
-   static List<dynamic> chargeList = [
+  static List<dynamic> chargeList = [
+    {"id": "-", "name": "-"},
     {"id": "ไม่สวมหมวกนิรภัย", "name": "ไม่สวมหมวกนิรภัย"},
     {"id": "ซ้อน 3", "name": "ซ้อน 3"},
     {"id": "ย้อนศร", "name": "ย้อนศร"},
     {"id": "จอดในที่ห้ามจอด", "name": "จอดในที่ห้ามจอด"},
   ];
   static List<dynamic> facultyList = [
+    {"id": "-", "name": "-"},
     {"id": "เกษตรศาสตร์", "name": "เกษตรศาสตร์"},
     {"id": "วิทยาศาสตร์", "name": "วิทยาศาสตร์"},
     {"id": "วิศวกรรมศาสตร์", "name": "วิศวกรรมศาสตร์"},
@@ -141,6 +143,7 @@ class Dropdown {
     {"id": "วิทยาลัยนานาชาติ", "name": "วิทยาลัยนานาชาติ"},
   ];
   static List<dynamic> provinceList = [
+    {"id": "-", "name": "-"},
     {"id": "กรุงเทพมหานคร", "name": "กรุงเทพมหานคร"},
     {"id": "กระบี่", "name": "กระบี่"},
     {"id": "กาญจนบุรี", "name": "กาญจนบุรี"},
