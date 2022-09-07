@@ -16,7 +16,7 @@ import 'package:snippet_coder_utils/FormHelper.dart';
 // Project imports:
 import 'package:detection_mobile/constants.dart';
 import 'package:detection_mobile/pages/navpages/data_page.dart';
-import '../../config.dart';
+import 'package:detection_mobile/config.dart';
 
 // ignore: must_be_immutable
 class DetailPage extends StatelessWidget {
@@ -30,7 +30,7 @@ class DetailPage extends StatelessWidget {
     // if (kDebugMode) {
     //   print("Start !" + studentID);
     // }
-    var url = Uri.http(Config.apiURL, Config.showDataDetails + "/" + studentID);
+    var url = Uri.http(Config.apiURL, Config.showDataDetailsAPI + "/" + studentID);
     var dataObj = await http.get(url);
 
     var jsonData = json.decode(dataObj.body);

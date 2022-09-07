@@ -1,3 +1,4 @@
+// ignore_for_file: constant_identifier_names
 // Dart imports:
 import 'dart:convert';
 
@@ -24,7 +25,6 @@ class SharedService {
     if (username == null) {
       return false;
     }
-    print(username);
     AppConst.USER_NAME = username;
 
     return isCacheKeyExist;

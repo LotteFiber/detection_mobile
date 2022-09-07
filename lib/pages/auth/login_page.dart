@@ -10,7 +10,7 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 // Project imports:
 import 'package:detection_mobile/api/api_service.dart';
 import 'package:detection_mobile/constants.dart';
-import '../../config.dart';
+import 'package:detection_mobile/config.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

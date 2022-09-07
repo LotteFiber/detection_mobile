@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 // Project imports:
 import 'package:detection_mobile/const/appConst.dart';
 import 'package:detection_mobile/utils/shared_service.dart';
-import '../../constants.dart';
+import 'package:detection_mobile/constants.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({Key? key}) : super(key: key);

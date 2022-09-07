@@ -9,8 +9,8 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 // Project imports:
 import 'package:detection_mobile/api/api_service.dart';
-import '../../config.dart';
-import '../../constants.dart';
+import 'package:detection_mobile/config.dart';
+import 'package:detection_mobile/constants.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);

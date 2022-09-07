@@ -10,10 +10,10 @@ import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:detection_mobile/api/api_service.dart';
 import 'package:detection_mobile/config.dart';
 import 'package:detection_mobile/constants.dart';
-import 'package:detection_mobile/models/student_model.dart';
 import 'package:detection_mobile/pages/navpages/data_page.dart';
 import 'package:detection_mobile/pages/navpages/detail_page.dart';
 import 'package:detection_mobile/widgets/show_alert_dialog.dart';
+import 'package:detection_mobile/models/data_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAsyncCallProcess = false;
-  StudentModel? studentModel;
+  DataModel? dataModel;
   String? studentId;
   String? enterdStudentId;
 
@@ -67,13 +67,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    studentModel = StudentModel();
+    dataModel = DataModel();
 
     Future.delayed(Duration.zero, () {
       if (ModalRoute.of(context)?.settings.arguments != null) {
         final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
 
-        studentModel = arguments["model"];
+        dataModel = arguments["model"];
         setState(() {});
       }
     });
