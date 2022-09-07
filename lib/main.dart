@@ -1,10 +1,15 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:detection_mobile/pages/auth/login_page.dart';
 import 'package:detection_mobile/pages/auth/register_page.dart';
 import 'package:detection_mobile/pages/navpages/dashboard_page.dart';
 import 'package:detection_mobile/theme.dart';
 import 'package:detection_mobile/utils/shared_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Widget _defaultHome = const LoginPage();
 

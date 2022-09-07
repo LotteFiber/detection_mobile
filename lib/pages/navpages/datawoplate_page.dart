@@ -1,18 +1,24 @@
 // ignore_for_file: non_constant_identifier_names
 
+// Dart imports:
 import 'dart:async';
 import 'dart:io';
-import 'package:detection_mobile/const/appConst.dart';
-import 'package:detection_mobile/constants.dart';
-import 'package:detection_mobile/models/datawoplate_model.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
-import '../../api/api_service.dart';
-import '../../config.dart';
+// Project imports:
+import 'package:detection_mobile/api/api_service.dart';
+import 'package:detection_mobile/config.dart';
+import 'package:detection_mobile/const/appConst.dart';
+import 'package:detection_mobile/constants.dart';
+import 'package:detection_mobile/models/datawoplate_model.dart';
 
 class DataWOPlatePage extends StatefulWidget {
   const DataWOPlatePage({Key? key}) : super(key: key);
@@ -25,30 +31,23 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isAsyncCallProcess = false;
   DataWOPlateModel? dataWOPlateModel;
-  String? firstName;
-  String? lastName;
-  String? studentId;
-  String? faculty;
   bool isImageSelected = false;
   bool isFileSelected = false;
   XFile? file;
   XFile? file2;
-
-  String facultyVal = "";
-  String chargeVal = "";
-
   String CardImage_UUID = "";
   String EventImage_UUID = "";
 
-  String fName = "";
-  String lName = "";
-  String sID = "";
-  String fValue = "";
-  String plateID = "";
-  String cardID = "";
-
-  void _processData() {
-    globalKey.currentState?.reset();
+  void _clearFormData() {
+    setState(() {
+      dataWOPlateModel?.firstName = "";
+      dataWOPlateModel?.lastName = "";
+      dataWOPlateModel?.studentId = "";
+      dataWOPlateModel?.faculty = "";
+      dataWOPlateModel?.charge = "";
+      dataWOPlateModel?.uploadedImageCard = null;
+      dataWOPlateModel?.uploadedImageEvent = null;
+    });
   }
 
   @override
@@ -137,10 +136,10 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                     picPicker(
                       isImageSelected,
                       dataWOPlateModel!.uploadedImageCard ?? "",
-                      (file4) {
+                      (file) {
                         setState(
                           () {
-                            dataWOPlateModel!.uploadedImageCard = file4.path;
+                            dataWOPlateModel!.uploadedImageCard = file.path;
                             isImageSelected = true;
                           },
                         );
@@ -188,12 +187,10 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                                             dataWOPlateModel!.studentId =
                                                 response2["student_id"]
                                                     .toString();
-                                            facultyVal = response2["faculty"];
                                             dataWOPlateModel!.faculty =
-                                                facultyVal;
-                                            chargeVal = "ไม่สวมหมวกนิรภัย";
+                                                response2["faculty"];
                                             dataWOPlateModel!.charge =
-                                                chargeVal;
+                                                "ไม่สวมหมวกนิรภัย";
                                             dataWOPlateModel!
                                                     .uploadedImageCardUUID =
                                                 AppConst.Temp_UUID +
@@ -291,11 +288,20 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                                   EventImage_UUID = uuid;
                                   dataWOPlateModel!.uploadedImageEventUUID =
                                       uuid;
+                                  FormHelper.showSimpleAlertDialog(
+                                    context,
+                                    Config.appName,
+                                    "อัปโหลดรูปภาพสำเร็จ",
+                                    "Ok",
+                                    () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
                                 } else {
                                   FormHelper.showSimpleAlertDialog(
                                     context,
                                     Config.appName,
-                                    "Please Provide Valid Data",
+                                    "โปรดระบุข้อมูลที่ถูกต้อง",
                                     "Ok",
                                     () {
                                       Navigator.of(context).pop();
@@ -308,7 +314,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                             FormHelper.showSimpleAlertDialog(
                               context,
                               Config.appName,
-                              "Please Select Image",
+                              "กรุณาเลือกรูปภาพ",
                               "Ok",
                               () {
                                 Navigator.of(context).pop();
@@ -333,7 +339,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
             ),
             FormHelper.inputFieldWidget(
               context,
-              "firstName",
+              "firstNameVal",
               "ชื่อ",
               (onValidateVal) {
                 String pattern =
@@ -348,8 +354,6 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
               },
               (onSavedVal) {
                 dataWOPlateModel!.firstName = onSavedVal.toString().trim();
-                // firstName = onSavedVal.toString().trim();
-                // fName = onSavedVal.toString().trim();
               },
               initialValue: dataWOPlateModel!.firstName ?? "",
               showPrefixIcon: false,
@@ -369,7 +373,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
             ),
             FormHelper.inputFieldWidget(
               context,
-              "lastName",
+              "lastNameVal",
               "นามสกุล",
               (onValidateVal) {
                 String pattern =
@@ -384,8 +388,6 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
               },
               (onSavedVal) {
                 dataWOPlateModel!.lastName = onSavedVal.toString().trim();
-                // lastName = onSavedVal.toString().trim();
-                // lName = onSavedVal.toString().trim();
               },
               initialValue: dataWOPlateModel!.lastName ?? "",
               showPrefixIcon: false,
@@ -405,7 +407,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
             ),
             FormHelper.inputFieldWidget(
               context,
-              "studentId",
+              "studentIdVal",
               "รหัสนิสิต",
               (onValidateVal) {
                 String pattern = r'^([0-9]{8})$';
@@ -419,8 +421,6 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
               },
               (onSavedVal) {
                 dataWOPlateModel!.studentId = onSavedVal.toString().trim();
-                // studentId = onSavedVal.toString().trim();
-                // sID = onSavedVal.toString().trim();
               },
               initialValue: dataWOPlateModel!.studentId ?? "",
               showPrefixIcon: false,
@@ -441,13 +441,10 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
             FormHelper.dropDownWidget(
               context,
               "คณะ",
-              // fValue,
-              facultyVal,
+              dataWOPlateModel!.faculty,
               Dropdown.facultyList,
               (onChanged) {
                 dataWOPlateModel!.faculty = onChanged! ?? "";
-                // faculty = onChanged! ?? "";
-                // fValue = onChanged! ?? "";
               },
               (onValidate) {
                 if (onValidate == null) {
@@ -472,7 +469,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
             FormHelper.dropDownWidget(
               context,
               "ข้อหา",
-              chargeVal,
+              dataWOPlateModel!.charge,
               Dropdown.chargeList,
               (onChanged) {
                 dataWOPlateModel!.charge = onChanged! ?? "";
@@ -520,7 +517,7 @@ class _DataWOPlatePage extends State<DataWOPlatePage> {
                             "Ok",
                             () {
                               Navigator.of(context).pop();
-                              _processData();
+                              _clearFormData();
                             },
                           );
                         } else {

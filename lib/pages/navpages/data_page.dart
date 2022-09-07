@@ -1,18 +1,24 @@
+// ignore_for_file: non_constant_identifier_names
+
+// Dart imports:
 import 'dart:async';
 import 'dart:io';
-import 'package:detection_mobile/const/appConst.dart';
-import 'package:detection_mobile/constants.dart';
-import 'package:detection_mobile/models/datawoplate_model.dart';
-import 'package:detection_mobile/models/student_model.dart';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
-import '../../api/api_service.dart';
-import '../../config.dart';
-import '../../models/data_model.dart';
+// Project imports:
+import 'package:detection_mobile/api/api_service.dart';
+import 'package:detection_mobile/config.dart';
+import 'package:detection_mobile/const/appConst.dart';
+import 'package:detection_mobile/constants.dart';
+import 'package:detection_mobile/models/data_model.dart';
 
 class DataPage extends StatefulWidget {
   const DataPage({Key? key}) : super(key: key);
@@ -23,41 +29,26 @@ class DataPage extends StatefulWidget {
 
 class _DataPageState extends State<DataPage> {
   static final GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-  static final GlobalKey<FormState> globalKey2 = GlobalKey<FormState>();
   bool isAsyncCallProcess = false;
   DataModel? dataModel;
-  StudentModel? studentModel;
-  DataWOPlateModel? dataWOPlateModel;
-  String? firstName;
-  String? lastName;
-  String? studentId;
-  String? faculty;
-  String? licensePartOne = "";
-  String? licensePartTwo = "";
-  String? licensePartThree = "";
   bool isImageSelected = false;
   bool isFileSelected = false;
   XFile? file;
-
   XFile? file2;
   XFile? file3;
-  XFile? file4;
-
-  String province = "";
-  String chargeVal = "";
-
   String CardImage_UUID = "";
   String EventImage_UUID = "";
 
-  String fName = "";
-  String lName = "";
-  String sID = "";
-  String fValue = "";
-  String plateID = "";
-  String cardID = "";
-
-  void _processData() {
-    globalKey.currentState?.reset();
+  void _clearFormData() {
+    setState(() {
+      dataModel!.licensePartOne = "";
+      dataModel!.licensePartTwo = "";
+      dataModel!.licensePartThree = "";
+      dataModel!.charge = "";
+      dataModel!.uploadedImages = null;
+      dataModel!.uploadedImageCard = null;
+      dataModel!.uploadedImageEvent = null;
+    });
   }
 
   @override
@@ -96,7 +87,6 @@ class _DataPageState extends State<DataPage> {
   void initState() {
     super.initState();
     dataModel = DataModel();
-    studentModel = StudentModel();
 
     Future.delayed(Duration.zero, () {
       if (ModalRoute.of(context)?.settings.arguments != null) {
@@ -184,31 +174,38 @@ class _DataPageState extends State<DataPage> {
                                       "คลิก Ok เพื่อกรอกฟอร์มข้อมูลอัตโนมัติ",
                                       "Ok",
                                       () {
-                                        APIService.getImageData()
+                                        APIService.getPlateImageData()
                                             .then((response2) {
                                           if (response2 != null) {
                                             print(response2);
                                             var pathStr = dataModel!
                                                 .uploadedImages
                                                 .toString();
-                                            // var jsonData =
-                                            //     json.decode(response2.body);
                                             setState(() {
                                               dataModel!.licensePartOne =
                                                   response2["top"];
-                                              province = response2["province"];
+                                              dataModel!.licensePartTwo =
+                                                  response2["province"];
                                               dataModel!.licensePartThree =
                                                   response2["bottom"];
-                                              chargeVal = "ไม่สวมหมวกนิรภัย";
+                                              dataModel!.charge =
+                                                  "ไม่สวมหมวกนิรภัย";
                                               dataModel!.imageUUID =
                                                   AppConst.Temp_UUID +
                                                       "." +
                                                       pathStr.split(".").last;
-                                              dataModel!.licensePartTwo =
-                                                  province;
-                                              dataModel!.charge = chargeVal;
                                               AppConst.Temp_UUID = "";
                                             });
+                                          } else if (response2 == null) {
+                                            FormHelper.showSimpleAlertDialog(
+                                              context,
+                                              Config.appName,
+                                              "ไม่สามารถดึงข้อมูลจากภาพนี้ได้ โปรดลองภาพอื่น",
+                                              "Ok",
+                                              () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            );
                                           }
                                         });
                                         Navigator.of(context).pop();
@@ -295,6 +292,15 @@ class _DataPageState extends State<DataPage> {
                                   String uuid = response;
                                   CardImage_UUID = uuid;
                                   dataModel!.uploadedImageCardUUID = uuid;
+                                  FormHelper.showSimpleAlertDialog(
+                                    context,
+                                    Config.appName,
+                                    "อัปโหลดรูปภาพสำเร็จ",
+                                    "Ok",
+                                    () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
                                 } else {
                                   FormHelper.showSimpleAlertDialog(
                                     context,
@@ -371,6 +377,15 @@ class _DataPageState extends State<DataPage> {
                                   String uuid = response;
                                   EventImage_UUID = uuid;
                                   dataModel!.uploadedImageEventUUID = uuid;
+                                  FormHelper.showSimpleAlertDialog(
+                                    context,
+                                    Config.appName,
+                                    "อัปโหลดรูปภาพสำเร็จ",
+                                    "Ok",
+                                    () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  );
                                 } else {
                                   FormHelper.showSimpleAlertDialog(
                                     context,
@@ -443,7 +458,7 @@ class _DataPageState extends State<DataPage> {
             FormHelper.dropDownWidget(
               context,
               "แผ่นป้ายทะเบียนส่วนที่ 2",
-              province,
+              dataModel!.licensePartTwo,
               Dropdown.provinceList,
               (onChanged) {
                 dataModel!.licensePartTwo = onChanged! ?? "";
@@ -500,7 +515,7 @@ class _DataPageState extends State<DataPage> {
             FormHelper.dropDownWidget(
               context,
               "ข้อหา",
-              chargeVal,
+              dataModel!.charge,
               Dropdown.chargeList,
               (onChanged) {
                 dataModel!.charge = onChanged! ?? "";
@@ -546,7 +561,7 @@ class _DataPageState extends State<DataPage> {
                             "Ok",
                             () {
                               Navigator.of(context).pop();
-                              _processData();
+                              _clearFormData();
                             },
                           );
                         } else {
@@ -663,17 +678,6 @@ class _DataPageState extends State<DataPage> {
 
     if (form!.validate()) {
       form.save();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bool validateAndSave2() {
-    final form2 = globalKey2.currentState;
-
-    if (form2!.validate()) {
-      form2.save();
       return true;
     } else {
       return false;

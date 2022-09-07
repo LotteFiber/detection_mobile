@@ -1,10 +1,15 @@
-import 'package:detection_mobile/constants.dart';
+// Flutter imports:
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
+
+// Project imports:
 import 'package:detection_mobile/api/api_service.dart';
+import 'package:detection_mobile/constants.dart';
 import '../../config.dart';
 
 class LoginPage extends StatefulWidget {

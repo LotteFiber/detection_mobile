@@ -1,7 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:google_fonts/google_fonts.dart';
+
+// Project imports:
 import 'package:detection_mobile/const/appConst.dart';
 import 'package:detection_mobile/utils/shared_service.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../constants.dart';
 
 class UserPage extends StatelessWidget {

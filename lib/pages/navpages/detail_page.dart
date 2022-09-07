@@ -1,17 +1,21 @@
 // ignore_for_file: non_constant_identifier_names
 
+// Dart imports:
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:intl/intl.dart';
+import 'package:snippet_coder_utils/FormHelper.dart';
+
+// Project imports:
 import 'package:detection_mobile/constants.dart';
 import 'package:detection_mobile/pages/navpages/data_page.dart';
-
 import '../../config.dart';
 
 // ignore: must_be_immutable
@@ -59,7 +63,7 @@ class DetailPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.deepOrangeAccent,
           title: Text(
-            "ผลการตรวจสอบการกระทำความผิด",
+            "ผลการตรวจสอบ",
             style: GoogleFonts.prompt(
               fontWeight: FontWeight.bold,
               fontSize: 20,

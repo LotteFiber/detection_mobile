@@ -1,14 +1,19 @@
-import 'package:detection_mobile/models/student_model.dart';
-import 'package:detection_mobile/pages/navpages/detail_page.dart';
-import 'package:detection_mobile/pages/navpages/data_page.dart';
-import 'package:detection_mobile/widgets/show_alert_dialog.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
-import '../../../constants.dart';
-import '../../api/api_service.dart';
-import '../../config.dart';
+
+// Project imports:
+import 'package:detection_mobile/api/api_service.dart';
+import 'package:detection_mobile/config.dart';
+import 'package:detection_mobile/constants.dart';
+import 'package:detection_mobile/models/student_model.dart';
+import 'package:detection_mobile/pages/navpages/data_page.dart';
+import 'package:detection_mobile/pages/navpages/detail_page.dart';
+import 'package:detection_mobile/widgets/show_alert_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

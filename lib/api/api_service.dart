@@ -1,14 +1,18 @@
+// Dart imports:
 import 'dart:convert';
-import 'package:detection_mobile/const/appConst.dart';
-import 'package:detection_mobile/models/datawoplate_model.dart';
-import 'package:detection_mobile/models/student_model.dart';
-import 'package:http/http.dart' as http;
-import 'package:detection_mobile/config.dart';
-import 'package:detection_mobile/models/login_response_model.dart';
-import 'package:detection_mobile/utils/shared_service.dart';
+
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Project imports:
+import 'package:detection_mobile/config.dart';
+import 'package:detection_mobile/const/appConst.dart';
+import 'package:detection_mobile/models/datawoplate_model.dart';
+import 'package:detection_mobile/models/login_response_model.dart';
+import 'package:detection_mobile/models/student_model.dart';
+import 'package:detection_mobile/utils/shared_service.dart';
 import '../models/data_model.dart';
 
 final apiService = Provider((ref) => APIService());
@@ -204,7 +208,7 @@ class APIService {
     AppConst.Temp_UUID = jasonData["uuid"];
 
     if (response.statusCode == 200) {
-      var url1 = Uri.http(Config.apiURL, Config.startProgramImage);
+      var url1 = Uri.http(Config.apiURL, Config.startProgramPlateImage);
       var response1 = await client.post(url1, body: {
         "uuid": jasonData["uuid"],
       });
@@ -255,11 +259,11 @@ class APIService {
   }
 
   //get data for image
-  static Future getImageData() async {
+  static Future getPlateImageData() async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
     var url = Uri.http(
-        Config.apiURL, Config.getImageData + AppConst.Temp_UUID + ".json");
+        Config.apiURL, Config.getPlateImageData + AppConst.Temp_UUID + ".json");
 
     var response = await client.get(
       url,

@@ -1,10 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:detection_mobile/constants.dart';
-import 'package:detection_mobile/size_config.dart';
-import 'package:detection_mobile/pages/navpages/home_page.dart';
 import 'package:detection_mobile/pages/navpages/data_page.dart';
 import 'package:detection_mobile/pages/navpages/datawoplate_page.dart';
+import 'package:detection_mobile/pages/navpages/home_page.dart';
 import 'package:detection_mobile/pages/navpages/user_page.dart';
+import 'package:detection_mobile/size_config.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
