@@ -14,6 +14,7 @@ import 'package:detection_mobile/pages/navpages/data_page.dart';
 import 'package:detection_mobile/pages/navpages/detail_page.dart';
 import 'package:detection_mobile/widgets/show_alert_dialog.dart';
 import 'package:detection_mobile/models/data_model.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -80,6 +81,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _addHomeUI(BuildContext context) {
+    const url = "https://polite-gnome-8e1ce6.netlify.app/";
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -177,7 +179,8 @@ class _HomePageState extends State<HomePage> {
                                               globalKey.currentState?.reset(),
                                         );
                                         _processData();
-                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
                                       },
                                       "เพิ่มข้อมูลใหม่",
                                       () {
@@ -193,7 +196,8 @@ class _HomePageState extends State<HomePage> {
                                               globalKey.currentState?.reset(),
                                         );
                                         _processData();
-                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
                                       },
                                       value,
                                     );
@@ -206,7 +210,8 @@ class _HomePageState extends State<HomePage> {
                                       () {
                                         Navigator.of(context).pop();
                                         _processData();
-                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
                                       },
                                       "เพิ่มข้อมูลใหม่",
                                       () {
@@ -222,7 +227,8 @@ class _HomePageState extends State<HomePage> {
                                               globalKey.currentState?.reset(),
                                         );
                                         _processData();
-                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
                                       },
                                       value,
                                     );
@@ -240,7 +246,18 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: 20,
+                  ),
+                  Center(
+                    child: InkWell(
+                      child: const Text('ไปยังเว็บแอพพลิเคชัน',
+                          style:
+                              TextStyle(decoration: TextDecoration.underline)),
+                      onTap: () => launchUrlString(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      ),
+                    ),
                   ),
                 ],
               ),

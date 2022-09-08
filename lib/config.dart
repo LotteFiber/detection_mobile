@@ -2,8 +2,9 @@ class Config {
   static const String appName = "Helmet.sys";
 
   // Base URL
-  static const String apiURL = "10.0.2.2:5000"; // url debug on virtual emulator
+  // static const String apiURL = "10.0.2.2:5000"; // url debug on virtual emulator
   // static const String apiURL = "localhost:5000"; // url debug on physical device
+  static const String apiURL = "https://nu-helmet-sys.herokuapp.com/";
 
   // Save Plate and Card Data
   static const String addDataAPI = "api/insertdatabyapp";
