@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _addHomeUI(BuildContext context) {
-    const url = "https://polite-gnome-8e1ce6.netlify.app/";
+    const url = "http://34.126.176.231/";
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Center(
                     child: InkWell(
-                      child: const Text('ไปยังเว็บแอพพลิเคชัน',
+                      child: const Text('ไปยังเว็บแอปพลิเคชัน',
                           style:
                               TextStyle(decoration: TextDecoration.underline)),
                       onTap: () => launchUrlString(
