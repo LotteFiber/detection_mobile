@@ -161,13 +161,13 @@ class _DataPageState extends State<DataPage> {
                                     dataModel!, isImageSelected)
                                 .then(
                               (response) {
-                                Timer(const Duration(seconds: 10), () {
+                                Timer(const Duration(seconds: 20), () {
                                   setState(() {
                                     isAsyncCallProcess = false;
                                   });
                                 });
                                 if (response) {
-                                  Timer(const Duration(seconds: 10), () {
+                                  Timer(const Duration(seconds: 20), () {
                                     FormHelper.showSimpleAlertDialog(
                                       context,
                                       Config.appName,

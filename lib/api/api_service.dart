@@ -96,7 +96,7 @@ class APIService {
     DataModel model,
     bool isFileSelected,
   ) async {
-    var url = Uri.http(Config.apiURL, Config.uploadPlateImageAPI);
+    var url = Uri.http(Config.apiURL, Config.uploadImageAPI);
     var request = http.MultipartRequest("POST", url);
 
     if (model.uploadedImageCard != null && isFileSelected) {
@@ -123,7 +123,7 @@ class APIService {
     DataModel model,
     bool isFileSelected,
   ) async {
-    var url = Uri.http(Config.apiURL, Config.uploadPlateImageAPI);
+    var url = Uri.http(Config.apiURL, Config.uploadImageAPI);
     var request = http.MultipartRequest("POST", url);
 
     if (model.uploadedImageEvent != null && isFileSelected) {
@@ -149,7 +149,7 @@ class APIService {
     DataWOPlateModel model,
     bool isFileSelected,
   ) async {
-    var url = Uri.http(Config.apiURL, Config.uploadPlateImageAPI);
+    var url = Uri.http(Config.apiURL, Config.uploadImageAPI);
     var request = http.MultipartRequest("POST", url);
 
     if (model.uploadedImageEvent != null && isFileSelected) {
@@ -245,8 +245,8 @@ class APIService {
   static Future getPlateImageData() async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
-    var url = Uri.http(
-        Config.apiURL, Config.getPlateImageDataAPI + AppConst.Temp_UUID + ".json");
+    var url = Uri.http(Config.apiURL,
+        Config.getPlateImageDataAPI + AppConst.Temp_UUID + ".json");
 
     var response = await client.get(
       url,
@@ -265,8 +265,8 @@ class APIService {
   static Future getCardImageData() async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
-    var url = Uri.http(
-        Config.apiURL, Config.getCardImageDataAPI + AppConst.Temp_UUID + ".json");
+    var url = Uri.http(Config.apiURL,
+        Config.getCardImageDataAPI + AppConst.Temp_UUID + ".json");
 
     var response = await client.get(
       url,
@@ -306,7 +306,8 @@ class APIService {
 
   // Get Count of Data
   static Future<int> getCount(String studentID) async {
-    var url = Uri.http(Config.apiURL, Config.showDataDetailsAPI + "/" + studentID);
+    var url =
+        Uri.http(Config.apiURL, Config.showDataDetailsAPI + "/" + studentID);
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

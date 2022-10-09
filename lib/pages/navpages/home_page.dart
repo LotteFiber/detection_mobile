@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           backgroundColor: kActiveColor,
           title: Text(
-            "ตรวจสอบข้อมูล",
+            "NU HelmetSys",
             style: GoogleFonts.prompt(
               fontWeight: FontWeight.bold,
               fontSize: 25,
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _addHomeUI(BuildContext context) {
-    const url = "http://34.126.176.231/";
+    const url = "http://34.142.211.8/";
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "ตรวจสอบข้อมูลรหัสนิสิต",
+                        "ตรวจสอบข้อมูลนิสิต",
                         style: GoogleFonts.prompt(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                                     notFoundDialog(
                                       context,
                                       Config.appName,
-                                      "ไม่พบเจอผู้ไม่สวมหมวกนิรภัย",
+                                      "ไม่พบเจอข้อมูลนิสิต",
                                       "ยกเลิก",
                                       () {
                                         Navigator.of(context).pop();
